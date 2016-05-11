@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Billy the Kid -- Installation</title>
+</head>
+<body>
+<a href="preface.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="rawpacket.html">Next</a>
+<hr>
+<h1>Installation</h1>
+Installing btk is farely simple, assumed you're having a correctly
+installed Python distribution (>= 2.0) with distutils. You also need
+to have libpcap (>= 0.7.1) installed, but with most *nix distro's its already
+installed because you need it for tools like tcpdump and snort.
+Switch to root and do:
+
+<pre>
+host:~/btk# python ./setup.py install
+</pre>
+
+This will trigger the distutils build system and it'll build and install
+btk in the correct places on your system. If no serious compilation errors
+were discovered you're able to check if your system is ready to hack with
+btk.
+
+<pre>
+host:~/btk# python
+Python 2.2 (#1, Feb 19 2002, 14:14:04)
+[GCC 2.95.2 20000220 (Debian GNU/Linux)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import btk
+>>> 
+</pre>
+
+No error received when importing python which means its correctly installed!
+Installation completed, so let's move on...
+
+<hr>
+<a href="preface.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="rawpacket.html">Next</a>
+</body>
+</html>

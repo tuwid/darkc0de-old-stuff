@@ -1,0 +1,51 @@
+------[ Pourquoi Zeppoo ? ]----------------------------------------------------
+
+Le projet original s'appelait Zeppo, mais pour un soucis de concordance avec 
+le nom de domaine, nous avons du choisir Zeppoo.
+
+
+------[ Zeppoo marche pas chez moi, est ce normal ? ]--------------------------
+
+Zeppoo est tres dependant de l'architecture, actuellement il ne fonctionne que
+sur les architectures i386 et ne tourne que sous Linux. Des portages sont en 
+cours, cela viendra avec le temps. Mais si vous voulez nous aider, envoyez nous
+vos patchs !
+
+
+------[ Il ne me signale aucun probleme, ma machine est saine ? ]--------------
+
+On ne peut pas vous assurer a 100% que votre systeme n'est pas compromis,
+mais c'est actuellement une des methodes les plus fiable qui est mise a votre
+disposition
+
+
+------[ Ma machine est devenu un gruyere, comment je fais ? ]------------------
+
+Reinstallez votre machine, mettez vos patchs a jour et sauvegardez un fingerprint.
+
+
+------[ Ou sauvegarder le fingerprint ? ]--------------------------------------
+
+Ne le laissez surtout pas sur votre systeme, mettez le dans un endroit sure et
+chiffrez le.
+
+
+------[ J'ai un kernel de la branche 2.4.X, zeppoo marche t'il ? ]-------------
+
+Malheureusement non, mais une version supportant les 2.4.X devrait voir le jour
+prochainement.
+
+
+------[ Comment utiliser /dev/mem ? ]------------------------------------------
+
+Utiliser l'option -d /dev/mem !!
+
+
+------[ Puis je contribuer ou faire part de mes remarques ]--------------------
+
+Oui bien sur, envoyez vos mails a contact@zeppoo.net
+
+
+------[ J'aime votre logiciel, comment je peux vous aider ? ]------------------
+
+Aidez nous a finir le TODO !!

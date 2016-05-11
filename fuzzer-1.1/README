@@ -1,0 +1,59 @@
+Fuzzer is a Net-Twister module that help in the Vulnerability Research and Development process.
+I've coded it in the last two days, so it's just begining...BUT IT WORKS and pretty good.
+It actualy allows you to declare a protocol and fuzz it with specialy cratfed data
+trying to find BufferOverFlow, Sql-Injection, Variable Manipulation and Traversal 
+vulnerabilities.
+In this version I've addes just ftp, smpt and pop3 protocols as specified in the rfc
+but it is quite easy to add others, including propietary ones.
+It cans talk tcp, udp and ssl protocols.
+
+adding more protocols
+=====================
+
+you just need a very little knowledge of python
+do it this way (in protocols.py):
+
+add the protocol:
+
+	yourprotocol =	{
+					'proto'  :  'tcp', # this may be 'tcp', 'udp' or 'ssl'
+					'banner' :  1    , # if it tas to get a banner whet connected 1(ON) or 0(OFF)
+					'comm'   :  [
+									{  'command'   : 'USER '      , 'datatype'   : 'string'  , 'default' : 'ftp'  , 'recv' : 1   , 'endw' : '\r\n' ,'mustuse'  : 1   },
+									.
+									.
+									.
+									}
+									]
+						}
+
+labels meaning:
+
+	'command'	-> fist string to send in line
+	'datatype'	-> type of data to fuzz with, this may be 'string', 'int', 'inject' or None
+	'default'	-> if it must be used always especify with what value
+	'recv'		-> if after send it it must get an answer 1(ON) or 0(OFF)
+	'endw'		-> if it uses a termination in each request add it as a string. i.e: '\r\n' or ''
+	'mustuse'	-> if it must always be used for other chained requests 1(ON) or 0(OFF)
+
+and just add 'yourprotocol':
+
+	protoname =	{
+							'yourprotocol'	: yourprotocol, # this is the protocol declared above
+							'smtp'			: smtp,
+							'ftp'				: ftp,
+							'pop3'			: pop3
+							}
+
+Using it
+========
+
+./fuzzer.py -h <host> -p <port> -t <protocol> -s <sleep in secs> -f [use fastmode]
+(i.e: ./fuzzer.py -h 192.168.0.50 -p 21 -t ftp -s 2)
+
+Launch './fuzzer' without arguments to see descriptions
+
+Any question, sugestion, comments or whatever, please e-mail Sergio Alvarez at 
+shadown@g-con.org or shadown@gmail.com
+
+All files covered under the GNU PUBLIC LICENSE v 2.0

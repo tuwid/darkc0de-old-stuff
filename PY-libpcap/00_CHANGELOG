@@ -1,0 +1,10 @@
+22 Feb 99
+---------
+Added bpf filtering support.  (We're on our way.)  You can pass filter
+strings on the command line to sniff.py.  The filter language is the
+same one used by tcpdump.
+
+11 NOV 98
+---------
+Initial functionality for callbacks finished.  Python can capture packets
+from the wire now.

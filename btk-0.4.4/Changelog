@@ -1,0 +1,32 @@
+0.4.4
+- Added full documentation
+- Using distutils for building proces (again ;)
+- Fixed Segmentation Fault when non-root user calls findalldevs()
+- Added GPL header info to every source file
+
+0.4.3
+- Libpcap support
+- Minor object struct cleanups
+
+0.4.2
+- Some memory bugs fixed
+- Added some improvements suggested by Jan Gylta (jgylta@online.no)
+- ICMP now fully supported
+- little `bity-bit` bugs fixed ;-)
+- Now using Makefile for building proces 
+
+0.3
+- data() method correctly handles all strings (except unicode)
+- UDP now fully supported
+- Minor TCP tos/ttl bug fixed
+- Several code cleanups!
+- Rewritten some functions so ICMP can easily be implemented
+
+0.2
+- Changed name `gforce` into an even more 1337er name `Billy the Kid` ;)
+- Checksumming now seems to work with and without payload
+- Added changelog :-/
+- All bcopy/bzero functions are replaced with memset/memcopy
+- Moved a lot of packet-functions to packet.c
+- Apart from options(..) all TCP functions seem to work now 
+- Some kind of Readme added

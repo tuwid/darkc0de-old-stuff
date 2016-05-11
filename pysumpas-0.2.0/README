@@ -1,0 +1,42 @@
+PySumpas - a Python/Tkinter string-to-checksum password generator
+Nolan Liebert, 2008
+See LICENSE for copy and distribution details.
+
+I. INTRODUCTION
+Thank you for choosing PySumpas!  
+PySumpas is a very simple program written in Python/Tkinter.
+It uses Python's built-in hashlib module to create checksums from user
+input, then creates a combined checksum of the two generated checksums.
+The combined checksum can be used, in part or as a whole, for passwords.
+Currently md5sum is the only supported checksum method.  See the TODO
+section for future plans.
+
+II. INSTALLATION
+Each user differs in how they wish to install applications from outside
+the repositories of their chosen system.  For this reason I will not
+include an install script for PySumpas.  Provided below, however, is a
+common method.  Make sure both pysumpas.py and the pysumpas script are
+executable before installing.
+As root:
+cp /path/to/pysumpas.py /usr/local/bin 
+cp /path/to/pysumpas.sh /usr/local/bin
+
+III. USING PYSUMPAS
+The use of PySumpas is simple.
+In a terminal:
+pysumpas   
+From there, simply input the two words of you choice in the two entry
+boxes.  Click either "Generate MD5" or "Generate SHA1" depending on the 
+type of checksum you wish to produce. The checksum should appear in the 
+message box below the buttons.  The resulting checksum can be used as a
+password.  Should the password be lost or forgotten, simply entering the
+original words should regenerate the original hash.
+
+IV. TODO
+As of PySumpas 0.2.0, both MD5 and SHA1 checksums are supported.  Future
+plans include further support of the FIPS secure hash algorithms.  Other
+features may be made available upon user request.
+
+V. CONTACT
+I would like to hear any feedback, whether comments, suggestions, bugs,
+or wishlists.  You may contact me via e-mail at n.q.liebert@gmail.com.

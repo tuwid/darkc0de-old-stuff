@@ -1,0 +1,13 @@
+
+
+[ Version 1.0 ] 5/6/2009
+	- Uses a cookie to grab all posible results for each query in 20 requests
+	- Tries every keyword with every 'site:'
+	- Outputs to sqlmap compatible log ( badabing_sqlmap directory)
+		Usage: slqmap -l badabing_sqlmap/
+
+Tip:  The keywords file is an actually a list of Bing-dorks
+Tip2: In the site list file you can avoid domains by using '-(site:mx)'
+
+
+hkm [@] hakim [.] ws

@@ -1,0 +1,12 @@
+com
+net
+org
+edu
+info
+tv
+fm
+me
+info
+mobi
+biz
+jobs

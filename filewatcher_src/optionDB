@@ -1,0 +1,13 @@
+*Frame*background:	white
+*Label*font:		Verdana 8 bold
+*Label*background:	white
+*borderwidth:		0
+*highlightthickness:    0
+*Entry*background:	white
+*Entry*foreground:	black
+*Enty*font:		Verdana 8 bold
+*Text*background:	white
+*Text*foreground:	black
+*Listbox*background:	white
+*Listbox*foreground:	black
+

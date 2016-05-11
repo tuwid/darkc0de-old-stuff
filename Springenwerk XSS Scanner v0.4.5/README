@@ -1,0 +1,26 @@
+Springenwerk v0.4.5 Readme
+**************************
+
+Springenwerk is a Cross Site Scripting (XSS) security scanner, written in Python.
+
+This is my first project using Python, so please feel free to tell me about all 
+the places in the code where I screwed up.
+
+Use this tool at your own risk (see LICENCE file)!
+
+Be responsible. Use this tool only on your own network and on web applications
+that you are explicitly allowed to scan.
+
+This is open source software. Please help make this THE open source XSS scanner 
+by using it, providing feedback, writing about it, filing bug reports and feature 
+requests, donating, sponsoring, and - of course - by enhancing it.
+
+For installation help, see the INSTALL file.
+For usage information, run Springenwerk without any arguments:
+
+  python springenwerk.py
+
+Thank you for using Springenwerk.  
+
+2006, Johannes Fahrenkrug
+

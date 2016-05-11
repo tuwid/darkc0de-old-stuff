@@ -1,0 +1,90 @@
+------[ I INTRODUCTION ]--------------------------------------------------------
+
+Zeppoo makes it possible to detect if a rootkit is installed on your system. 
+It also makes it possible to detect hidden tasks, modules, syscalls, some 
+corrupted symbols and also hidden connections.
+
+For that, Zeppoo uses mainly /dev/kmem to inspect directly the memory of the 
+kernel and when that's possible /dev/mem.
+
+This version of Zeppoo is coding in python and needs python2.4, there is also
+a version C which is avaible on our website :
+		http://www.zeppoo.net
+
+------[ II INSTALLATION ]-------------------------------------------------------
+
+Zeppoo uses a micro lib(pico ? :p) in order to obtain the interrupt descriptor
+table with an assembler instruction, but we provide a version directly compiled,
+called ulibzeppo.so
+
+If you wish to compile your own version, you need to have the package 
+python-devel installed, then compile with :
+		python setup.py build
+
+
+------[ III USE ]---------------------------------------------------------------
+
+* Visualization : 
+	** Tasks :
+		./zeppoo.py -v tasks
+
+	** Syscalls : 
+		./zeppoo.py -v syscalls
+
+	** Networks :
+		./zeppoo.py -v networks
+
+
+* Checking :
+	** Tasks :
+		./zeppoo.py -c tasks
+
+	** Networks :
+		./zeppoo.py -c networks
+
+
+* Fingerprint :
+	** Create :
+		./zeppoo.py -f FILES create
+
+	** Checking :
+		./zeppoo.py -f FILES check
+
+* Others :
+	** To Change device by default(/dev/kmem) :
+		-d PERIPH
+		
+	** To use mmap to seek symbols(faster) :
+		-m
+
+Examples :
+	** Visualization of tasks by /dev/mem using mmap :
+		./zeppoo.py -v tasks -d /dev/mem -m
+
+	** Make fingerprint using /dev/mem :
+		./zeppoo.py -f FILE create -d /dev/mem
+	
+	** Check fingerprint using /dev/mem :
+		./zeppoo.py -f FILE check -d /dev/mem
+
+------[ CONTACTS ]--------------------------------------------------------------
+
+For any request for assistance concerning the software, to propose your patchs, 
+to contribute to the TODO, write us <contact@zeppoo.net>
+
+Come to visit the wiki http://www.zeppoo.net
+
+
+------[ LICENSE ]---------------------------------------------------------------
+
+Zeppoo is under license GPL version 2, see COPYING
+
+
+------[ AUTHORS ]--------------------------------------------------------------
+
+See AUTHORS
+
+
+------[ BUGS ]-----------------------------------------------------------------
+
+Report bugs at <bugs@zeppoo.net>.

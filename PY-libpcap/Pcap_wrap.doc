@@ -1,0 +1,85 @@
+Pcap_wrap.c
+
+[ Python Module : Pcap ]
+
+
+loop(p,cnt,PyFunc)
+        [ returns void  ]
+
+dispatch(p,cnt,PyFunc)
+        [ returns void  ]
+
+lookupdev(char *)
+        [ returns char * ]
+
+lookupnet(char *,bpf_u_int32 *,bpf_u_int32 *,char *)
+        [ returns int  ]
+
+open_live(char *,int ,int ,int ,char *)
+        [ returns pcap_t * ]
+
+open_offline(char *,char *)
+        [ returns pcap_t * ]
+
+close(pcap_t *)
+        [ returns void  ]
+
+next(pcap_t *,struct pcap_pkthdr *)
+        [ returns u_char * ]
+
+stats(pcap_t *,struct pcap_stat *)
+        [ returns int  ]
+
+setfilter(pcap_t *,struct bpf_program *)
+        [ returns int  ]
+
+perror(pcap_t *,char *)
+        [ returns void  ]
+
+strerror(int )
+        [ returns char * ]
+
+geterr(pcap_t *)
+        [ returns char * ]
+        %name(compile) int pcap_compile(pcap_t *, struct bpf_program *fp,
+        char *str, int optimize, bpf_u_int32 netmask);
+
+compile(pcap_t *,fp,str,optimize,netmask)
+        [ returns int  ]
+
+datalink(pcap_t *)
+        [ returns int  ]
+
+snapshot(pcap_t *)
+        [ returns int  ]
+
+is_swapped(pcap_t *)
+        [ returns int  ]
+
+major_version(pcap_t *)
+        [ returns int  ]
+
+minor_version(pcap_t *)
+        [ returns int  ]
+
+file(pcap_t *)
+        [ returns FILE * ]
+
+fileno(pcap_t *)
+        [ returns int  ]
+
+dump_open(pcap_t *,char *)
+        [ returns pcap_dumper_t * ]
+
+dump_close(pcap_dumper_t *)
+        [ returns void  ]
+
+dump(u_char *,struct pcap_pkthdr *,u_char *)
+        [ returns void  ]
+
+bpfprog_new()
+        [ returns struct bpf_program * ]
+
+bpfprog_del(bprog)
+        [ returns void  ]
+

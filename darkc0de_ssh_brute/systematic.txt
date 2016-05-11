@@ -1,0 +1,40 @@
+<author>gunslinger_</author>
+<toolname>sshbruter.py</toolname>
+<email>gunslinger@devilzc0de.com</email>
+<ym>gunslinger.devilzc0de@yahoo.com</ym>
+				  _________|if_connections_established|_________                                                             __<hostname> <user> <wordlist>__
+				  |        |pinging to google to test :D|       |-1-2-3-SYSTEM READY FOR BRUTE FORCING--> start scanning---> checking requirement for scanning
+____________________              |                                                                                                                 |
+first, checking     |		  |										                                    |
+internet connection |-------------|                                                                                                    not accept   |  if accept
+____________________|             |                                                                                                 |---------------+----------------|   
+				  |												    |                                |
+				  |												    |                                |
+				  +												    |                                +
+				if connections lost			                                                          Error :                      open wordlist
+				( not running )										   - Failed wordlist                 and start scanning
+				Sorry connection failed ! please check your internet connection	        	           - Wrong Input                             |
+																				     |
+																				     |
+																				     |
+																				     |
+												_____________________________________if_logged_in_SSH________________|
+				                                                               |                                                                     |	
+											       |                                                                     |
+											       |								     |
+											       |                                                                     |
+                                                                                               +                                                                     |
+								[!] w00t,w00t you've successfully entering SSH target !						     |
+								[!] username : blablabla  									     |
+								[!] password : blablabla                                                                             |
+								[!] Gathering detail target information :                                                            |
+								- perintah-----------------------|                                                                   |
+								- perintah2                      |==> # this is shell command                                        |
+								- perintah3                      |                                                                   |
+								- perintah4 _____________________|                                                                   |
+      																				     |
+																				     |
+																				     |
+																				     |
+											        								     |
+						                back to system<==sys.exit(1)<==|_____________________________if_not_logged_in_SSH____________________|

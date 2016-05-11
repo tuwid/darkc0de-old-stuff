@@ -1,0 +1,10 @@
+Voici le TODO pour les prochaines versions :	
+	
+	- Finir le support du reseau en utilisant la memoire noyau
+	- Finir le fingerprints pour certains symboles
+	- Ajouter le support des modules kernel
+	- Ajouter la verification de la table des interruptions
+	- Ajouter une maniere plus simple de verification et d'installation 
+	  pour les utilisateurs et la remonter des infos par mail
+ 	- Ajouter la verification des syscalls par mesure du temps
+	- Porter zeppoo pour les *BSD

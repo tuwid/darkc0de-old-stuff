@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Billy the Kid -- Raw packet creation</title>
+</head>
+<body>
+<a href="installation.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="rawpacket_method.html">Next</a>
+<hr>
+<h1>Raw packet creation</h1>
+The very early, lame versions of btk were only capable of sending some raw
+packets. No packets were to be received and thus it made btk only useful as
+some kind of module helping you to write "spoofed IP DOS"-scripts. Fortunately,
+due to bad coding (hey I'm not c0deG0d! ;) a kiddie would 'cause a local DOS
+when doing something like this:
+<pre>
+while 1:
+	s.send("192.168.1.1", 80, "192.168.1.2", 5424) 
+</pre>
+Those memory-eating bugs are mostly fixed and there are capabilities of 
+receiving packages with the builtin libpcap-support. The libpcap parts from
+btk are explained in later sections. For now, we'll focus on simple, raw packet
+creation with btk.
+<pre>
+>>> import btk
+>>> dir(btk)
+>>> ['ACK', 'CWR', 'ECN', 'FIN', 'ICMP', 'PUSH', 'RST', 'SYN', 'TCP', 'UDP', 'URG', '__doc__', '__file__', '__name__', 'btk', 'pcap', 'version']
+</pre>    
+If you do a dir(btk) you'll get confronted with all defined constants, classes
+and functions provided by btk. The objects starting and ending with __ are to
+be considered for (mostly) internal use and aren't very interesting for the
+usage of btk. The function version() is only meant to display btk's version. The
+most interesting things in the list are the two classes named btk and pcap.
+<br><br>
+If you've got any experience with raw packet creation you'll recognize the
+capitalized objects. Those are representing the supported protocols and some
+flags (to be used with TCP). As you've probably noticed, btk doesn't support
+many protocols at the moment. The btk internals are very easy coded and
+so its easy to extend it to another protocol (IGMP, ARP, RARP). It's likely that
+(when I'm not short of time) I'll implement them as wel as some IPV6 support.
+<br><br>
+Designing raw packets is very easy. The only thing you need is the btk class.
+After you've created a reference to the btk-class you can set all kind of packet
+options with the methods of the class. Sounds difficult? It isn't and now you'll
+remember why you love Python:
+<pre>
+>>> import btk
+>>> packet = btk.btk()
+>>> dir(packet)
+['data', 'flags', 'options', 'protocol', 'send']
+>>> packet.protocol(btk.TCP)
+>>> packet.flags(btk.SYN)
+>>> packet.options(urp=55)
+>>> packet.data("whoot")
+>>> packet.send("192.168.1.1", 80, "192.168.1.2", 1234)
+</pre>
+That's it. If you put tcpdump on a terminal you'll notice that a packet from
+"192.168.1.2:1234" is send to "192.168.1.1:www". The captured packet has an
+urgent pointer from 55 and a payload containing "whoot".
+Please note that if you hate it to do btk.TCP, btk.SYN etc everytime you need
+to import btk like so it gets imported in the main namespace:
+<pre>
+>>> from btk import *
+>>> packet = btk()
+>>> packet.protocol(TCP)
+</pre>
+On the next page all methods of the btk() class are explained in detail so
+check it out!
+<hr>
+<a href="installation.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="rawpacket_method.html">Next</a>
+</body>
+</html>

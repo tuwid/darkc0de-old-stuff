@@ -1,0 +1,60 @@
+*************************************
+* ProxyStrike v1.0                  *
+* Coded by:                         *
+* Carlos del ojo                    *
+*   - deepbit@gmail.com             *
+*************************************
+
+What is this?
+-------------
+
+ProxyStrike is a tool designed to find Sql injection and xss vulnerabilities
+while browsing an application.
+
+The process is very simple, ProxyStrike runs like a passive proxy listening in
+port 8008 by default, so you have to browse the desired web site using
+ProxyStrike as proxy and it will attack all the paremeters in background mode.
+
+Features:
+
+    * Http request/response history
+    * Request parameter stats
+    * Request parameter values stats
+    * Request url parameter signing and header field signing
+    * Use of an alternate proxy (tor for example ;D )
+    * Sql attacks
+    * Xss attacks
+    * Export results to HTML or XML
+    * Console version (python proxystrike.py -c / proxystrike.exe -c)
+
+Todo:
+
+    * Save/restore session
+    * Relaunch detected XSS and Sql vulnerabilities
+    * Blind sql attack module
+
+
+Platforms:
+----------
+
+ProxyStrike runs in windows/linux/OSX
+
+Windows: proxystrike.exe
+Linux/OSX: python proxystrike.py
+
+for console mode: (python proxystrike.py -c / proxystrike.exe -c)
+
+Dependencies:
+------------
+
+On *nix systems, need pycurl,pyopenssl,pyqt4,pyopenssl
+On Windows just run the proxystrike.exe
+
+Thanks:
+-------
+
+    * DarkRaver (ProxyStrike sql engine is a python port of sqlibf)
+    * Javier Mendez for XSS engine improvement
+    * Christian Matorella and Vicente Diaz
+    * All S21sec team
+

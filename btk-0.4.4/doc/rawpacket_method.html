@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Billy the Kid -- Raw packet method descriptions</title>
+</head>
+<body>
+<a href="rawpacket.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="pcap.html">Next</a>
+<hr>
+<h1>Raw packet method descriptions</h1>
+<dl><dt>
+<pre>data(s)</pre>
+<dd>
+This puts a string s into the packet resulting in a payload
+at the end of the packet after the normal packet headers.
+</dl>
+
+<dl><dt>
+<pre>flags(i)</pre>
+<dd>
+With flags you can set the TCP-flags from a packet. This makes
+this method only available when having defined a TCP-protocolish
+packet. In the future this method may move to options. The flags
+can be put in subsequently after eachother like this:
+<pre>packet.flags(btk.SYN | btk.FIN)</pre>
+The flags available are:
+<pre>
+SYN, FIN, ACK, URG, RST, PUSH, CWR, ECN
+</pre>
+For their meaning look in the corresponding RFC's meantioned in the
+References section from this manual
+</dl>
+<dl><dt>
+<pre>options(...)</pre>
+<dd>
+A lot of options can be set for the packets. This method works with
+keywords representing a special value to be set in your raw packet.
+<table>
+<tr><td><pre>seq</pre></td><td>Sequence number (TCP)</td></tr>
+<tr><td><pre>ack</pre></td><td>Acknowledgement (TCP)</td></tr>
+<tr><td><pre>urp</pre></td><td>Urgent pointer (TCP)</td></tr>
+<tr><td><pre>win</pre></td><td>Window size (TCP)</td></tr>
+<tr><td><pre>off</pre></td><td>Offset (IP)</td></tr>
+<tr><td><pre>tos</pre></td><td>Type Of Service (IP)</td></tr>
+<tr><td><pre>ttl</pre></td><td>Time to Live (IP)</td></tr>
+<tr><td><pre>id</pre></td><td>Identification number (IP)</td></tr>
+<tr><td><pre>type</pre></td><td>ICMP type</td></tr>
+<tr><td><pre>code</pre></td><td>ICMP code</td></tr>
+<tr><td><pre>gateway</pre></td><td>String with gateway (ICMP type 5)</td></tr>
+<tr><td><pre>address_mask</pre></td><td>String with address_mask (ICMP type 17/18)</td></tr>
+<tr><td><pre>time_orig</pre></td><td>Original Time (ICMP type 13/14)</td></tr>
+<tr><td><pre>time_recv</pre></td><td>Received Time (ICMP type 13/14)</td></tr>
+<tr><td><pre>time_tsmt</pre></td><td>Transmitted Time (ICMP type 13/14)</td></tr>
+<tr><td><pre>pointer</pre></td><td>Data with parameter problem (ICMP type 12)</td></tr>
+<tr><td><pre>no_addr</pre></td><td>No. of adresses (ICMP type 9)</td></tr>
+<tr><td><pre>entry_size</pre></td><td>Entry size(ICMP type 9)</td></tr>
+<tr><td><pre>lifetime</pre></td><td>Lifetime (ICMP type 9)</td></tr>
+<tr><td><pre>icmp_id</pre></td><td>ICMP id number</td></tr>
+<tr><td><pre>icmp_seq</pre></td><td>ICMP sequence number</td></tr>
+</table>
+These are the options currently available. If you set an ICMP option but
+afterwarts you'll send a TCP-packet the other options won't have any impact
+on your raw packet.
+</dl>
+
+<dl><dt>
+<pre>protocol(i)</pre>
+<dd>
+Specify the protocol type of the packet. At the moment only IP-based
+protocols are supported.
+<pre>TCP, UDP, ICMP</pre>
+More protocols to be added soon!
+</dl>
+
+<dl><dt>
+<pre>send(dstip, dstport, srcip, srcport)</pre>
+<dd>
+The send method allows you to finally assemble the packet and set it out
+into the wide web. You can't (for now) specify hostnames so you'll have
+to look up the IP and fill it in. Note that the ip's are expected to be strings
+and the ports are expected to be integers.
+</dl>
+
+<hr>
+<a href="rawpacket.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="pcap.html">Next</a>
+</body>
+</html>

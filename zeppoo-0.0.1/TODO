@@ -1,0 +1,10 @@
+Here the TODO for the next release :
+
+	- To finish support of network by using kernel memory
+	- To finish fingerprints for some symbols
+	- To add support of modules kernel
+	- To add checking of the table of interrupt
+	- To add a simple manner for installation
+	- To add a module for sends automatic informations by mail
+	- To add the checking of syscalls by measurement of time
+	- To modify Zeppoo for BSD 

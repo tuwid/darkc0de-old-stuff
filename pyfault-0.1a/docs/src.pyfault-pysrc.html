@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>src.pyfault</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://www.vdalabs.com/">PyFault - Python Win32 Fault Injection</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;src ::
+        Module&nbsp;pyfault
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="src.pyfault-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="src.pyfault-module.html">Module src.pyfault</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># PyFault</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># Copyright (C) 2007 Justin Seitz &lt;jms@bughunter.ca&gt;</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment">#</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment">#</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># version.</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment">#</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment">#</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># You should have received a copy of the GNU General Public License along with this program; if not, write to the Free</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment"># Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-comment">#</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-comment"></tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module src.pyfault_defines=src.pyfault_defines-module.html"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-0', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module src.faultx=src.faultx-module.html,Class src.faultx.faultx=src.faultx.faultx-class.html"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-1', 'faultx', 'link-1');">faultx</a></tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">ctypes</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable src.pyfault.kernel32=src.pyfault-module.html#kernel32"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-2', 'kernel32', 'link-2');">kernel32</a></tt> <tt class="py-op">=</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">windll</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-3', 'kernel32', 'link-2');">kernel32</a></tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"> </tt>
+<a name="pyfault"></a><div id="pyfault-def"><a name="L25"></a><tt class="py-lineno"> 25</tt> <a class="py-toggle" href="#" id="pyfault-toggle" onclick="return toggle('pyfault');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="src.pyfault.pyfault-class.html">pyfault</a><tt class="py-op">:</tt> </tt>
+</div><div id="pyfault-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="pyfault-expanded"><a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">     </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">    This class is mainly a DLL injector/ejector, but I hope to expand it to be a fault injection suite,</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">    to torture software on those days the elusive 0-day doesn't come knocking. For now inject</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">    away until I have time to code up some other lovin'</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">     </tt>
+<a name="pyfault.__init__"></a><div id="pyfault.__init__-def"><a name="L33"></a><tt class="py-lineno"> 33</tt> <a class="py-toggle" href="#" id="pyfault.__init__-toggle" onclick="return toggle('pyfault.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="src.pyfault.pyfault-class.html#__init__">__init__</a> <tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pyfault.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="pyfault.__init__-expanded"><a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dll_path</tt>        <tt class="py-op">=</tt>    <tt class="py-name">None</tt>        <tt class="py-comment"># Full path to DLL for injection.</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">pid</tt>             <tt class="py-op">=</tt>    <tt class="py-name">None</tt>        <tt class="py-comment"># Process id for various nastiness. Mainly DLL injection.</tt> </tt>
+</div><a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">     </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">     </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"><tt class="py-comment"></tt>    <tt class="py-string">'''</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"><tt class="py-string">    This function is basically a nice wrapper around CreateToolhelp32Snapshot() to retrieve detailed</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"><tt class="py-string">    information on a DLL for use in ejection.</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"><tt class="py-string">    '''</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-comment"></tt>     </tt>
+<a name="pyfault.get_module_info"></a><div id="pyfault.get_module_info-def"><a name="L46"></a><tt class="py-lineno"> 46</tt> <a class="py-toggle" href="#" id="pyfault.get_module_info-toggle" onclick="return toggle('pyfault.get_module_info');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="src.pyfault.pyfault-class.html#get_module_info">get_module_info</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">dll_name</tt><tt class="py-op">,</tt><tt class="py-param">pid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pyfault.get_module_info-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="pyfault.get_module_info-expanded"><a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">         </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-comment"># http://msdn2.microsoft.com/en-us/library/ms686849.aspx Reference to iterating a module list for a process</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># As well its worth noting that PaiMei (http://paimei.openrce.org) by Pedram Amini</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># has a reference to this functionality somewhat. Original credit in the PaiMei framework</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># goes to Otto Ebeling.</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-comment"></tt>         </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">        <tt class="py-comment"># We create a snapshot of the current process, this let's us dig out all kinds of </tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># useful information, including DLL info. We are really after the reference count</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># so that we can decrement it enough to get rid of the DLL we want unmapped</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">current_process</tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-4', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Class src.pyfault_defines.MODULEENTRY32=src.pyfault_defines.MODULEENTRY32-class.html"><a title="src.pyfault_defines.MODULEENTRY32" class="py-name" href="#" onclick="return doclink('link-5', 'MODULEENTRY32', 'link-5');">MODULEENTRY32</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">        <tt class="py-name">h_snap</tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-6', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CreateToolhelp32Snapshot</tt><tt class="py-op">(</tt><tt id="link-7" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-7', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Variable src.pyfault_defines.TH32CS_SNAPMODULE=src.pyfault_defines-module.html#TH32CS_SNAPMODULE"><a title="src.pyfault_defines.TH32CS_SNAPMODULE" class="py-name" href="#" onclick="return doclink('link-8', 'TH32CS_SNAPMODULE', 'link-8');">TH32CS_SNAPMODULE</a></tt><tt class="py-op">,</tt><tt class="py-name">pid</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-comment"># check for a failure to create a valid snapshot</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">if</tt> <tt class="py-name">h_snap</tt> <tt class="py-op">==</tt> <tt id="link-9" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-9', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Variable src.pyfault_defines.INVALID_HANDLE_VALUE=src.pyfault_defines-module.html#INVALID_HANDLE_VALUE"><a title="src.pyfault_defines.INVALID_HANDLE_VALUE" class="py-name" href="#" onclick="return doclink('link-10', 'INVALID_HANDLE_VALUE', 'link-10');">INVALID_HANDLE_VALUE</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-11" class="py-name"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-11', 'faultx', 'link-1');">faultx</a></tt><tt class="py-op">(</tt><tt class="py-string">"CreateToolHelp32Snapshot(TH32CS_SNAPMODULE,%d) failed."</tt> <tt class="py-op">%</tt> <tt class="py-name">pid</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">             </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-comment"># we have to initiliaze the size of the MODULEENTRY32 struct or this will all fail</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">current_process</tt><tt class="py-op">.</tt><tt class="py-name">dwSize</tt> <tt class="py-op">=</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">sizeof</tt><tt class="py-op">(</tt><tt class="py-name">current_process</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">         </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-comment"># check to make sure we have a valid list</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-12" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-12', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">Module32First</tt><tt class="py-op">(</tt><tt class="py-name">h_snap</tt><tt class="py-op">,</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">byref</tt><tt class="py-op">(</tt><tt class="py-name">current_process</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-13" class="py-name"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-13', 'faultx', 'link-1');">faultx</a></tt><tt class="py-op">(</tt><tt class="py-string">"Couldn't find a valid reference to the module %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">dll_name</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">             </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">         </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">        <tt class="py-comment"># Keep looking through the loaded modules to try to find the one specified for ejection</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">while</tt> <tt class="py-name">current_process</tt><tt class="py-op">.</tt><tt class="py-name">szModule</tt><tt class="py-op">.</tt><tt class="py-name">lower</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt class="py-name">dll_name</tt><tt class="py-op">.</tt><tt class="py-name">lower</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">             </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-14" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-14', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">Module32Next</tt><tt class="py-op">(</tt><tt class="py-name">h_snap</tt><tt class="py-op">,</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">byref</tt><tt class="py-op">(</tt><tt class="py-name">current_process</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-15" class="py-name"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-15', 'faultx', 'link-1');">faultx</a></tt><tt class="py-op">(</tt><tt class="py-string">"Couldn't find the DLL %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">dll_name</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">                </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">         </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-comment"># close the handle to the snapshot</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt id="link-16" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-16', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CloseHandle</tt><tt class="py-op">(</tt><tt class="py-name">h_snap</tt><tt class="py-op">)</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">         </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">        <tt class="py-comment"># return the MODULEENTRY32 structure of our DLL</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">return</tt> <tt class="py-name">current_process</tt> </tt>
+</div><a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">     </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">     </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">     </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-comment"></tt>    <tt class="py-string">'''</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-string">    This function removes a DLL from a running process, use at your own RISK! :)</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-string">    '''</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-comment"></tt>     </tt>
+<a name="pyfault.eject_dll"></a><div id="pyfault.eject_dll-def"><a name="L92"></a><tt class="py-lineno"> 92</tt> <a class="py-toggle" href="#" id="pyfault.eject_dll-toggle" onclick="return toggle('pyfault.eject_dll');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="src.pyfault.pyfault-class.html#eject_dll">eject_dll</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">dll_name</tt><tt class="py-op">,</tt><tt class="py-param">pid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pyfault.eject_dll-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="pyfault.eject_dll-expanded"><a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">        <tt class="py-docstring">'''</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">        Eject a loaded DLL from a running process.</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt class="py-docstring">        @type    dll_name:    String</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-docstring">        @param   dll_name:    The name of the DLL you wish to eject.</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"><tt class="py-docstring">        @type    pid:         Integer</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt class="py-docstring">        @param   pid:         The process ID that you want to eject a DLL from.</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt class="py-docstring">        </tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"><tt class="py-docstring">        @returns              True if successful, False if not.</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"><tt class="py-docstring">        '''</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">         </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">        <tt class="py-comment"># We need to get the reference count, and the base address to pop the DLL out</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">current_process</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Method src.pyfault.pyfault.get_module_info()=src.pyfault.pyfault-class.html#get_module_info"><a title="src.pyfault.pyfault.get_module_info" class="py-name" href="#" onclick="return doclink('link-17', 'get_module_info', 'link-17');">get_module_info</a></tt><tt class="py-op">(</tt><tt class="py-name">dll_name</tt><tt class="py-op">,</tt><tt class="py-name">pid</tt><tt class="py-op">)</tt>     </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">         </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">current_process</tt> <tt class="py-op">!=</tt> <tt class="py-name">False</tt><tt class="py-op">:</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">             </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">            <tt class="py-comment"># Crack open the process</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-name">h_process</tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-18', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">OpenProcess</tt><tt class="py-op">(</tt><tt id="link-19" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-19', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Variable src.pyfault_defines.PROCESS_ALL_ACCESS=src.pyfault_defines-module.html#PROCESS_ALL_ACCESS"><a title="src.pyfault_defines.PROCESS_ALL_ACCESS" class="py-name" href="#" onclick="return doclink('link-20', 'PROCESS_ALL_ACCESS', 'link-20');">PROCESS_ALL_ACCESS</a></tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-name">pid</tt><tt class="py-op">)</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">                </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">            <tt class="py-comment"># Get a handle directly to kernel32.dll</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-name">h_kernel32</tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-21', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">GetModuleHandleA</tt><tt class="py-op">(</tt><tt class="py-string">"kernel32.dll"</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">             </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">            <tt class="py-comment"># Get the address of FreeLibrary</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-name">h_freelib</tt> <tt class="py-op">=</tt> <tt id="link-22" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-22', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">GetProcAddress</tt><tt class="py-op">(</tt><tt class="py-name">h_kernel32</tt><tt class="py-op">,</tt><tt class="py-string">"FreeLibrary"</tt><tt class="py-op">)</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">                 </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">            <tt class="py-comment"># Now we try to create the remote thread hopefully freeing that DLL, the reason we loop is that</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-comment"># FreeLibrary merely decrements the reference count of the DLL we are freeing. Once the ref count</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-comment"># hits 0 it will unmap the DLL from memory</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt class="py-name">count</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">            <tt class="py-keyword">while</tt> <tt class="py-name">count</tt> <tt class="py-op">&lt;=</tt> <tt class="py-name">current_process</tt><tt class="py-op">.</tt><tt class="py-name">GlblcntUsage</tt><tt class="py-op">:</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">                <tt class="py-name">thread_id</tt> <tt class="py-op">=</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">c_ulong</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-23" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-23', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CreateRemoteThread</tt><tt class="py-op">(</tt><tt class="py-name">h_process</tt><tt class="py-op">,</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">h_freelib</tt><tt class="py-op">,</tt><tt class="py-name">current_process</tt><tt class="py-op">.</tt><tt class="py-name">hModule</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">byref</tt><tt class="py-op">(</tt><tt class="py-name">thread_id</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">                    <tt class="py-keyword">raise</tt> <tt id="link-24" class="py-name"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-24', 'faultx', 'link-1');">faultx</a></tt><tt class="py-op">(</tt><tt class="py-string">"CreateRemoteThread failed, couldn't run FreeLibrary()"</tt><tt class="py-op">)</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">                <tt class="py-name">count</tt> <tt class="py-op">+=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">             </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">            <tt class="py-comment"># Free some handles so we aren't leaking them all over the floor</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-comment"></tt>            <tt id="link-25" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-25', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CloseHandle</tt><tt class="py-op">(</tt><tt class="py-name">h_process</tt><tt class="py-op">)</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">            <tt id="link-26" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-26', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CloseHandle</tt><tt class="py-op">(</tt><tt class="py-name">h_kernel32</tt><tt class="py-op">)</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">            <tt id="link-27" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-27', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CloseHandle</tt><tt class="py-op">(</tt><tt class="py-name">h_freelib</tt><tt class="py-op">)</tt>      </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">              </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">         </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">             </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+</div><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">         </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">         </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"><tt class="py-comment"></tt>    <tt class="py-string">'''</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line"><tt class="py-string">    This is a simple method for injecting a DLL into a running process. </tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-string">    '''</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">    <tt class="py-comment">##############################################################################</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-comment"></tt>     </tt>
+<a name="pyfault.inject_dll"></a><div id="pyfault.inject_dll-def"><a name="L145"></a><tt class="py-lineno">145</tt> <a class="py-toggle" href="#" id="pyfault.inject_dll-toggle" onclick="return toggle('pyfault.inject_dll');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="src.pyfault.pyfault-class.html#inject_dll">inject_dll</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">dll_path</tt><tt class="py-op">,</tt><tt class="py-param">pid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pyfault.inject_dll-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="pyfault.inject_dll-expanded"><a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">         </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">        <tt class="py-docstring">'''</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line"><tt class="py-docstring">        Inject a DLL of your choice into a running process.</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-docstring">        @type    dll_name:    String</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-docstring">        @param   dll_name:    The path to the DLL you wish to inject.</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-docstring">        @type    pid:         Integer</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-docstring">        @param   pid:         The process ID that you wish to inject into.</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-docstring">        </tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-docstring">        @returns              True if the DLL was injected successfully, False if it wasn't.</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"><tt class="py-docstring">        '''</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">         </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">        <tt class="py-name">dll_len</tt> <tt class="py-op">=</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">dll_path</tt><tt class="py-op">)</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">         </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">        <tt class="py-comment"># Get a handle to the process we are injecting into.</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">h_process</tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-28', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">OpenProcess</tt><tt class="py-op">(</tt><tt id="link-29" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-29', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="src.pyfault_defines.PROCESS_ALL_ACCESS" class="py-name" href="#" onclick="return doclink('link-30', 'PROCESS_ALL_ACCESS', 'link-20');">PROCESS_ALL_ACCESS</a></tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-name">pid</tt><tt class="py-op">)</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">       </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">        <tt class="py-comment"># Now we have to allocate enough bytes for the name and path of our DLL.</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">arg_address</tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-31', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">VirtualAllocEx</tt><tt class="py-op">(</tt><tt class="py-name">h_process</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">dll_len</tt><tt class="py-op">,</tt><tt id="link-32" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-32', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Variable src.pyfault_defines.VIRTUAL_MEM=src.pyfault_defines-module.html#VIRTUAL_MEM"><a title="src.pyfault_defines.VIRTUAL_MEM" class="py-name" href="#" onclick="return doclink('link-33', 'VIRTUAL_MEM', 'link-33');">VIRTUAL_MEM</a></tt><tt class="py-op">,</tt><tt id="link-34" class="py-name"><a title="src.pyfault_defines" class="py-name" href="#" onclick="return doclink('link-34', 'pyfault_defines', 'link-0');">pyfault_defines</a></tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Variable src.pyfault_defines.PAGE_READWRITE=src.pyfault_defines-module.html#PAGE_READWRITE"><a title="src.pyfault_defines.PAGE_READWRITE" class="py-name" href="#" onclick="return doclink('link-35', 'PAGE_READWRITE', 'link-35');">PAGE_READWRITE</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">       </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">        <tt class="py-comment"># Write the path of the DLL into the previously allocated space. The pointer returned</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">written</tt> <tt class="py-op">=</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">c_int</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">        <tt id="link-36" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-36', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">WriteProcessMemory</tt><tt class="py-op">(</tt><tt class="py-name">h_process</tt><tt class="py-op">,</tt> <tt class="py-name">arg_address</tt><tt class="py-op">,</tt> <tt class="py-name">dll_path</tt><tt class="py-op">,</tt> <tt class="py-name">dll_len</tt><tt class="py-op">,</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">byref</tt><tt class="py-op">(</tt><tt class="py-name">written</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">        </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">        <tt class="py-comment"># Get a handle directly to kernel32.dll</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">h_kernel32</tt> <tt class="py-op">=</tt> <tt id="link-37" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-37', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">GetModuleHandleA</tt><tt class="py-op">(</tt><tt class="py-string">"kernel32.dll"</tt><tt class="py-op">)</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">         </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">        <tt class="py-comment"># Get the address of LoadLibraryA</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">h_loadlib</tt> <tt class="py-op">=</tt> <tt id="link-38" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-38', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">GetProcAddress</tt><tt class="py-op">(</tt><tt class="py-name">h_kernel32</tt><tt class="py-op">,</tt><tt class="py-string">"LoadLibraryA"</tt><tt class="py-op">)</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line">                 </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">        <tt class="py-comment"># Now we try to create the remote thread, with the entry point of </tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-name">thread_id</tt> <tt class="py-op">=</tt> <tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">c_ulong</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-39" class="py-name"><a title="src.pyfault.kernel32" class="py-name" href="#" onclick="return doclink('link-39', 'kernel32', 'link-2');">kernel32</a></tt><tt class="py-op">.</tt><tt class="py-name">CreateRemoteThread</tt><tt class="py-op">(</tt><tt class="py-name">h_process</tt><tt class="py-op">,</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">h_loadlib</tt><tt class="py-op">,</tt><tt class="py-name">arg_address</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">ctypes</tt><tt class="py-op">.</tt><tt class="py-name">byref</tt><tt class="py-op">(</tt><tt class="py-name">thread_id</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-40" class="py-name"><a title="src.faultx
+src.faultx.faultx" class="py-name" href="#" onclick="return doclink('link-40', 'faultx', 'link-1');">faultx</a></tt><tt class="py-op">(</tt><tt class="py-string">"CreateRemoteThread failed, unable to inject the DLL."</tt><tt class="py-op">)</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">         </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">        <tt class="py-comment"># Return the threadid of the newly injected DLL </tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div></div><a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://www.vdalabs.com/">PyFault - Python Win32 Fault Injection</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0beta1 on Mon Jul 09 19:01:22 2007
+    </td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

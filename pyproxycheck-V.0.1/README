@@ -1,0 +1,72 @@
+###################################################################
+#
+# Welcome To : pyproxycheck Version[0.1]      Mar 16 2005 
+#
+# Created by : on_a_role_again 
+#              support.services.complaints@gmail.com 
+#              NoWebsite. Do You Want to Host Me? 
+#
+#
+# Checks A List a Proxies Using A List of External Proxy Judges
+#
+#
+# Features:
+#   - Multi Threaded
+#   - Multiple Judge Checks
+#   - Checks for ANON, NOT ANON, and GATEWAY, HTTP Proxies
+#   - Checks for HTTP_FORWARD,HTTP_VIA,HTTP_PROXY Variables
+#   - Easy To Read Output to stdout
+#   - Easily Parsed Ouput to file
+#   - Free And Open Source, Please Visit http://swpat.ffii.org/ 
+#
+#
+# Need USAGE? Try -h
+#
+# Also See COPYING
+#
+###################################################################
+
+
+
+Introduction:
+
+A muti-threaded proxy checker written in python meant to be used on
+*nix systems. Checks a list of HTTP proxies against external proxy
+judges for a set of interesting parameters. It attempts to determine
+if the proxy is anonymous, not anonymouse, gateway, or down. It also
+returns binary results for Variable HTTP_X_FORWARD_FOR, HTTP_VIA, and
+HTTP_PROXY_CONNECTION.
+
+
+input :
+ - Files:
+	proxylist - a list of proxy ipaddress and port numbers IPADDRR:PORT
+		command line: `-p proxylistfile`
+	judglist  - a list of proxyjudge urls (see http://proxyjudge.org/)
+		command line: `-j judglistfile`
+	output    - a file to output results to
+		command line: `-o outputfile`
+ - Parameters 
+	bots	      - number of threads to run for checking
+		command line: `-b num_threads`
+	judge checks  - number of times to check judge
+		command line: `-n num_judge_checks`
+	your ip       - your ip address
+		command line: `-i 10.0.0.1`
+
+
+
+
+Example Usage:
+
+python pyproxycheck -p proxylist.txt \
+	            -o output.txt    \
+                    -n 10            \
+                    -b 20            \
+                    -j jdglist.txt   \
+                    -i 10.0.0.1
+
+
+This would check proxylist.txt and output to output.txt using,
+checking each judge in jdglist.txt 10 times, running 20 simultanious
+threads, and using 10.0.0.1 as your IP address.

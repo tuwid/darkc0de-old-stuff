@@ -1,0 +1,838 @@
+#!/usr/local/bin/python
+"""
+Copyright (c) 2005, on_a_role_again <support.services.complaints@gmail.com>
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+
+    * Neither the name of the on_a_role_again nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+
+
+
+import urllib
+import re
+import time
+import string
+from threading import Thread
+import sys
+from optparse import OptionParser
+
+
+#######
+# Application Data
+#
+APPLICATION="pyproxycheck"
+VERSION="0.1"
+DATE="Mar 16 2005"
+
+AUTHOR="on_a_role_again"
+EMAIL="support.services.complaints@gmail.com"
+SITE="NoWebsite. Do You Want to Host Me?"
+
+REVISION="0"
+
+#######
+# Yee ol' Globals
+getters=[]
+errorlog=open("error.prxycheck.log", "w")
+
+
+
+def Welcome():
+    print "\
+\n\
+\n\
+###################################################################\n\
+#\n\
+# Welcome To : %s Version[%s]      %s \n\
+#\n\
+# Created by : %s \n\
+#              %s \n\
+#              %s \n\
+#\n\
+#\n\
+# Checks A List a Proxies Using A List of External Proxy Judges\n\
+#\n\
+#\n\
+# Features:\n\
+#   - Multi Threaded\n\
+#   - Multiple Judge Checks\n\
+#   - Checks for ANON, NOT ANON, and GATEWAY, HTTP Proxies\n\
+#   - Checks for HTTP_X_FORWARD_FOR,HTTP_VIA,HTTP_PROXY Variables\n\
+#   - Easy To Read Output to stdout\n\
+#   - Easily Parsed Ouput to file\n\
+#   - Free And Open Source, Please Visit http://swpat.ffii.org/ \n\
+#\n\
+#\n\
+# Need USAGE? Try -h\n\
+#\n\
+# Also See README and COPYING\n\
+#\n\
+###################################################################\n\n\n" % \
+    (APPLICATION,
+     VERSION,
+     DATE,
+     AUTHOR,
+     EMAIL,
+     SITE)
+
+    time.sleep(5)
+
+#######
+# Get the ip address as shown by first judge
+#
+def getTRUE_IP():
+    fh=open(JDG_LIST)
+    url=fh.readline()
+    fh.close()
+    try:
+        tic=time.time()
+        page=urllib.urlopen(url)
+        toc=time.time()
+    except:
+        toc=time.time()
+        timeout=toc-tic
+        print "Could Not Download %s waited %3d seconds " % (url,timeout)
+        print " JUDGE DEAD ?"
+        return
+
+    ln=page.readline()
+    remoteaddr=False
+    while ln:
+        #print ln
+        remoteaddr=remote_addr_find(ln)
+        if remoteaddr:
+            return remoteaddr
+        ln=page.readline()
+        
+    
+
+#######
+# Keeps track of the number of active threads
+#
+def countActive():
+    """ returns the number of Getter threads that are alive """
+    num_active = 0
+    for g in getters:
+        if g.isAlive():
+            num_active += 1
+    #print "%d alive" % num_active
+    return num_active
+
+########
+# Check to see that a string is an valid ip address
+#
+def isip(ipstr):
+    """
+    returns true if ipstr is an valid ip address
+      else returns false     
+    """
+    # split string into its four parts 1.2.3.4
+    iplist=string.split(ipstr,".")
+    # check that it has four parts
+    if len(iplist) != 4:
+        return False
+    # check that each one of the four parts is
+    #   a number and in the range
+    for i in range(4):
+        try:
+            field=int(iplist[i])
+        except: # something that isn't a number 
+            return False
+        if field < 0 or field > 255:
+            return False
+    return True
+
+##########
+# mild check to see if a string is a proxy addr ie. something:port
+def isprxaddr(prxstr):
+    """
+    returns true if contains 1 ':' and has
+       positive numerical port
+    """
+    prxlist=string.split(prxstr,':')
+    if len(prxlist) != 2:
+        return False
+    try:
+        portnum=int(prxlist[1])
+    except:
+        return False
+    if portnum <= 0:
+        return False
+    
+    return True
+
+
+
+#######################
+#
+# Define some Environment Variable finders
+#
+
+def remote_addr_find(line):
+    """ find and return REMOTE_ADDR valuse """
+    re_RA=re.compile(".*REMOTE_ADDR.*")
+    m=re_RA.match(line)
+    if m:
+        # OK we have found the REMOTE_ADDR
+        
+        remoteaddr=string.split(m.group(),"REMOTE_ADDR=")[1]
+        return remoteaddr
+    return None
+
+
+def remote_host_find(line):
+    """ find and return REMOTE_ADDR valuse """
+    re_RA=re.compile(".*REMOTE_HOST=.*")
+    m=re_RA.match(line)
+    if m:
+        # OK we have found the REMOTE_HOST
+        # take out any html tags
+        groupstr=re.sub(r'<[ /A-Za-z0-9#="]*>',r'',m.group())
+        return string.split(groupstr,"REMOTE_HOST=")[1]
+        
+    return None
+
+
+
+def true_ip_find_pred(line):
+    """ return true if line  has TRUE_IP in it """
+    re_TRUEIP=re.compile(".*"+TRUE_IP+".*")
+    m=re_TRUEIP.match(line)
+    if m:
+        return True
+    return None
+
+
+def http_x_forward_for_find_pred(line):
+    """
+       Return True if Line has HTTP_X_FORWARD_FOR variable
+         else false
+    """
+    re_HXFF=re.compile(".*HTTP_X_FORWARDED_FOR.*")
+    m=re_HXFF.match(line)
+    if m:
+        return True
+    return None
+
+def http_via_find_pred(line):
+    """
+       Return true if line has VIA variable
+         else false
+    """
+    re_HVIA=re.compile(".*VIA.*") # need to fix this
+    m=re_HVIA.match(line)
+    if m:
+        return True
+    return None
+
+def http_proxy_connection_find_pred(line):
+    """
+      Return true if line has HTTP_PROXY_CONNECTION variable
+        else return false
+    """
+    re_HPC=re.compile(".*HTTP_PROXY_CONNECTION.*")
+    m=re_HPC.match(line)
+    if m:
+        return True
+    return None
+
+
+#########
+# Print formating for colums
+#  I truely hope im an reinventing the wheel here
+#  ans that there is some elagent way to do this
+#  the fact that i have use `sys.` to have printf
+#  makes me want to kick python, or read documentation
+def printNeat(val,num):
+    strval=str(val)
+    sys.stdout.write(" ")
+    if len(strval) >= num:
+        for i in range(num):
+            sys.stdout.write(strval[i])
+        sys.stdout.write(" |")
+        return
+    
+    sys.stdout.write(strval)
+    for i in range(num-len(strval)):
+        sys.stdout.write(' ')
+    sys.stdout.write(" |")
+
+    
+################
+# Some Out Put Routines
+#
+def printResults(values):
+    printNeat(values[0],25) # proxy addr:ip
+    printNeat(values[1],15) # remote addr
+    printNeat(values[2],25) # remote host
+    printNeat(values[3],6)  # domain
+    printNeat(values[4],10) # type anon,gateway, not anon
+    printNeat(values[5],5)  # speed of test
+    printNeat(values[6],5)  # hxff
+    printNeat(values[7],5)  # hvia
+    printNeat(values[8],5)  # hpc
+    print
+
+    fileoutstr="%s | %s | %s | %s | %s | %s | %s | %s | %s \n" % (values[0],
+                                                                values[1],
+                                                                values[2],
+                                                                values[3],
+                                                                values[4],
+                                                                values[5],
+                                                                values[6],
+                                                                values[7],
+                                                                values[8])
+    outputfile.write(fileoutstr)
+    outputfile.flush()
+    #printResults([string.split(prx,"http://")[1],remoteaddr,remotehost,domain,"ANON",speed,hxff,hvia,hpc])
+    
+    
+
+###################################################################
+# The CHECKER CLASS
+###################################################################
+
+class Checker(Thread):
+    """ Check a Proxy
+
+        Logic for proxy check:
+
+        1) Download Jugde Page Thru Proxy
+
+        2) If page download sucessful continue, else return failure
+
+        3) Search The downloaded page for regex .*REMOTE_ADDR.* if
+           found continue, else return failure
+
+        4) Split the line with regex .*REMOTE_ADDR.* using the
+           delimter REMOTE_ADDR= saving [1] call this `remoteaddr`
+           which should be the returned remote addr, (that is the
+           proxy addr, the gateway address, or the true ip).
+
+        5) Check that remoteaddr is an ip, if so continue, else return
+           faliure
+        
+        6) Compare remoteaddr to true ip, if match return NOT ANON,
+           else continue
+
+        7) Compare remoteaddr to proxy ip, if match then ANON, else
+           continue
+
+        8) return GATEWAY ANON
+        
+    """
+    def __init__(self,url,prx):
+        Thread.__init__(self)
+        self.jdgurl=url
+        self.prx=prx
+        
+    def run(self):
+        """ Yee Ol' doit() function """
+        # the url of the judge and the address of the proxy
+        url=self.jdgurl
+        proxy=self.prx
+
+        #############################
+        # Lets Put Some Re's together
+        #
+        # True IP
+        re_TRUEIP=re.compile(".*"+TRUE_IP+".*")
+
+        # get the addr of the proxy
+        prxaddr=string.split(proxy,":")[0]
+        re_prxaddr=re.compile(prxaddr)
+
+        #####
+        # Piece together the proxy variable
+        prx="http://"
+        prx+=proxy
+        proxy={'http': prx}
+
+        ####
+        # Try to download the proxy judge page
+        # through the proxy
+        try:
+            
+            tic=time.time()
+            page=urllib.urlopen(url,proxies=proxy)
+            toc=time.time()
+        except:
+            toc=time.time()
+            timeout=toc-tic
+            errorlog.write("TIME OUT %s %s\n" % (proxy,url))
+            errorlog.flush()
+            #sys.stderr.write("Could Not Download Page waited %3d seconds\n" % timeout)
+            #sys.stderr.write("Using %s and %s" % (proxy,url))
+            return
+
+        # how long did it take to obtain the prxjdg page
+        speed=toc-tic
+
+        # start looking at the page line by line
+        remoteaddr=remotehost=trueipfound=hxff=hvia=hpc=None
+        
+        pline=page.readline()
+        while pline:
+            ######
+            # Try to find the relavent proxy variables
+            #
+            if not remoteaddr:
+                remoteaddr=remote_addr_find(pline)
+            if not remotehost:
+                remotehost=remote_host_find(pline)
+            if not trueipfound:
+                trueipfound=true_ip_find_pred(pline)
+            if not hxff:
+                hxff=http_x_forward_for_find_pred(pline)
+            if not hvia:
+                hvia=http_via_find_pred(pline)
+            if not hpc:
+                hpc=http_proxy_connection_find_pred(pline)
+                
+            pline=page.readline()
+
+        
+        # Check to see that we Found the REMOTE_ADDR Variable and that
+        # it was an ip address, if not bail
+        if remoteaddr == None or not isip(remoteaddr):
+            errorlog.write("NO REMOTE_ADDR %s %s\n" % (prx,self.jdgurl))
+            errorlog.flush()
+            printResults([string.split(prx,"http://")[1],
+                          remoteaddr,
+                          remotehost,
+                          None,
+                          "DEAD",
+                          None,
+                          None,
+                          None,
+                          None])
+            return
+        
+        # check to see if its NOT ANON
+        m=re_TRUEIP.match(remoteaddr)
+        if m or trueipfound:
+            # were done, its NOT ANON, print the results
+            domain=string.split(remotehost,".")[-1]
+            if domain.isdigit():
+                domain="???"
+            domain.lower()
+            printResults([string.split(prx,"http://")[1],
+                          remoteaddr,
+                          remotehost,
+                          domain,
+                          "NOT ANON",
+                          speed,
+                          hxff,
+                          hvia,
+                          hpc])
+            return
+            
+        # check if its a ANON
+        m=re_prxaddr.match(remoteaddr)        
+        if m:
+            # were done, its anon, print the results
+            domain=string.split(remotehost,".")[-1]
+            if domain.isdigit():
+                domain="???"
+            domain.lower()
+            printResults([string.split(prx,"http://")[1],
+                          remoteaddr,
+                          remotehost,
+                          domain,
+                          "ANON",
+                          speed,
+                          hxff,
+                          hvia,
+                          hpc])
+            return
+
+        # were done, its a gateway, print the results
+        domain=string.split(remotehost,".")[-1]
+        if domain.isdigit():
+            domain="???"
+        domain.lower()
+        printResults([string.split(prx,"http://")[1],
+                      remoteaddr,
+                      remotehost,
+                      domain,
+                      "GATEWAY",
+                      speed,
+                      hxff,
+                      hvia,
+                      hpc])
+        return
+        
+        
+            
+        
+###################################################################
+# The POXYLIST CLASS
+###################################################################
+
+class Proxies(Thread):
+    def __init__(self,proxyfile):
+        Thread.__init__(self)
+        self.proxylist=[]
+        self.cur=-1;
+        
+        try:
+            fh=open(proxyfile,"r")
+        except:
+            print """Could Not open "%s" for reading""" % proxyfile
+            return
+        
+        ln=fh.readline()
+        while ln:
+            if ln[-1] == "\n":
+                ln=ln[:-1]
+            if isprxaddr(ln):
+                self.proxylist.append(ln)
+            ln=fh.readline()
+        
+
+    def get(self):
+        self.cur+=1
+        #print self.cur
+        if self.cur < len(self.proxylist):
+            return self.proxylist[self.cur]
+        else:
+            return None
+        
+
+###################################################################
+# The JUDGE PAGE GET CLASS
+###################################################################
+class JudgePageGet(Thread):
+    def __init__(self,url):
+        Thread.__init__(self)
+        self.url=url
+        
+    def run(self):
+        # put together the re's
+        re_RA=re.compile(".*REMOTE_ADDR.*")
+        
+        url=self.url
+
+        ############
+        # Load the page
+        try:
+            tic=time.time()
+            page=urllib.urlopen(url)
+            toc=time.time()
+        except:
+            toc=time.time()
+            timeout=toc-tic
+            return
+
+        ############
+        # For each line in page (or until we find REMOTE_ADDR)
+        ln=page.readline()
+        while ln:
+            m=re_RA.match(ln)
+            if m:
+                # OK we have found the REMOTE_ADDR break
+                addr=string.split(m.group(),"REMOTE_ADDR=")[1]
+                speed=toc-tic
+                fh=open("goodjdgs.txt","a")
+                gjstr= "%3d,%s,%s,\n" % (speed,url,addr)
+                fh.write(gjstr)
+                break
+            ln=page.readline()
+        
+
+
+###################################################################
+# The JUDGELIST CLASS
+###################################################################
+class Judges(Thread):
+    def __init__(self,jdgfile):
+        Thread.__init__(self)
+
+        # judg containers and place holders
+        self.unchecked=[]
+        self.good=[]
+        self.cur=0;
+        self.jt=[] # judge threads
+
+        # check the judges before using
+        self.checkJudges(jdgfile)
+    
+    def checkJudges(self,jdgfile):
+        """ Check the Judges in jdgfile """
+        
+        ####
+        # Clean out the goodjdgs file
+        fh=open("goodjdgs.txt","w")
+        fh.write("")
+        fh.close()
+
+        #######
+        # open up the file with judges to check
+        try:
+            fh=open(jdgfile)
+        except:
+            print "could not open",jdgfile
+            return
+
+        #####
+        # Read in the judges
+        #
+        ln=fh.readline()
+        while ln:
+            if ln[-1] == "\n":
+                ln=ln[:-1]
+            self.unchecked.append(ln)
+            ln=fh.readline()
+        fh.close()
+
+        ####
+        # toss a bunch of requests at each judge
+        #
+        for jdg in self.unchecked:
+            for i in range(NUM_CHECK_JDG):
+                j=JudgePageGet(jdg)
+                j.start()
+                self.jt.append(j)
+            time.sleep(.5)
+
+        ####
+        # wait for the jdg tests to finish
+        #
+        numalive=-1
+        while not numalive == 0:
+            numalive=0
+            for i in range(len(self.jt)):
+                if self.jt[i].isAlive():
+                    numalive += 1
+                
+            
+        #########
+        # look through the good jdgs test
+        #
+        fh=open("goodjdgs.txt","r")
+
+        # The first entry is jdg url, the second is
+        #   the number of times that judge returned
+        #   the TRUE_IP
+        jdgs_dict={}
+        
+        # for each result of judge check
+        ln=fh.readline()
+        while ln:
+            if ln[-1] == "\n":
+                ln=ln[:-1]
+            #####
+            # did the judge return a good result?
+            # if so then inc its rating
+            if TRUE_IP == string.split(ln,",")[2]:
+                if jdgs_dict.has_key(string.split(ln,",")[1]):
+                    jdgs_dict[string.split(ln,",")[1]] += 1
+                else:
+                    jdgs_dict[string.split(ln,",")[1]] = 1
+
+            # snag the next line     
+            ln=fh.readline()
+
+        # close the file handel
+        fh.close()
+
+        ####
+        # if the judges gave the true ip for
+        #  each of the NUM_CHECK_JDG trials
+        #  add the judge to the good list
+        for entry,v in jdgs_dict.iteritems():
+            if v == NUM_CHECK_JDG:
+                self.good.append(entry)
+
+        if len(self.good) == 0:
+            print "No Good Judges Found"
+            print "   EXITING 3 "
+            sys.exit(3)
+
+    ########
+    # Get the next proxy from the list
+    #
+    def get(self):
+        """ Return the "next" judge in the list """
+        
+        if self.cur < len(self.good) - 1:
+            self.cur += 1
+        else:
+            self.cur = 0
+
+        jdg=self.good[self.cur]
+        return jdg
+
+
+
+###################################################################
+# MAIN
+#       
+###################################################################
+class Main(Thread):
+    def _init__(self):
+        Thread.__init__(self)
+
+
+    def run(self):
+
+        #########
+        # Load and Check the Judges
+        print "Checking Judges...",
+        jdgs=Judges(JDG_LIST)
+
+        #########
+        # Load the Proxies
+        print "Loading Proxies..."
+        proxylist=Proxies(PROXY_LIST_FILE)
+
+        print
+        print
+        print
+        printResults(["Proxy Address:PORT",
+                     "Remote Adress",
+                     "Remote Host",
+                     "Domain",
+                     "Type",
+                     "Speed",
+                     "HXFF",
+                     "HVIA",
+                     "HPC"])
+        print "---------------------------------------------------------------------------------------------------------------------------------"
+                     
+   
+        #########
+        # Check Each Proxy
+        prx=proxylist.get()
+        while prx:
+            url=jdgs.get()
+            while countActive() >= MAX_THREADS:
+                time.sleep(1)
+            g = Checker(url,prx)
+            getters.append(g)
+            g.start()
+    
+            prx=proxylist.get()
+            
+
+
+
+
+#########################################
+# BEGIN COMMAND LINE PARSING ET. AL.
+#########################################
+
+
+####################
+# Parse Command Line
+#
+parser = OptionParser()
+parser.add_option("-o", "--output-file",
+                  dest="OUTPUT_FILE",
+                  help="file name to output results too",
+                  default="output.txt",
+                  metavar="output.txt")
+parser.add_option("-j", "--judge-file",
+                  dest="JDG_LIST",
+                  help="file name of proxy judge list : default jdglist.txt",
+                  default="jdglist.txt",
+                  metavar="jdglist.txt")
+parser.add_option("-p", "--proxylist-file",
+                  dest="PROXY_LIST_FILE",
+                  help="file name of proxy list : default proxylist.txt",
+                  default="proxylist.txt",
+                  metavar="proxylist.txt")
+parser.add_option("-b", "--number-bots",
+                  dest="MAX_THREADS",
+                  help="number of simultanious checks : default=15",
+                  default="15",
+                  metavar="15")
+parser.add_option("-n", "--number-judge-check",
+                  dest="NUM_CHECK_JDG",
+                  help="number of times to check each judge : default=10",
+                  default="10",
+                  metavar="10")
+parser.add_option("-i", "--IP",
+                  dest="TRUE_IP",
+                  help="your IP address",
+                  default=None,
+                  metavar="10.0.0.1")
+
+(options, args) = parser.parse_args()
+
+
+
+# Print welcome Msg
+Welcome()
+
+
+################
+# Set Globals From Command Line
+#
+TRUE_IP=options.TRUE_IP
+MAX_THREADS=int(options.MAX_THREADS)
+NUM_CHECK_JDG=int(options.NUM_CHECK_JDG)
+JDG_LIST=options.JDG_LIST
+PROXY_LIST_FILE=options.PROXY_LIST_FILE
+OUTPUT_FILE=options.OUTPUT_FILE
+
+############
+# Check that TRUE_IP is OK
+#
+if not TRUE_IP or not isip(TRUE_IP):
+    TRUE_IP=getTRUE_IP()
+    if not TRUE_IP:
+        print "Could not determin your IP address try -i option"
+        exit
+
+# Set the output file
+outputfile=open(OUTPUT_FILE,"w")
+
+###########
+# Print option Values
+#
+print
+print
+print "Using for your IP           : %s" % TRUE_IP
+print "Using Proxy Judge List File : %s" % JDG_LIST
+print "Using Proxy List File       : %s" % PROXY_LIST_FILE
+print "Setting Number of Bots to   : %s" % MAX_THREADS
+print "Number of Judge Checks      : %s" % NUM_CHECK_JDG
+print "Ouput file                  : %s" % OUTPUT_FILE
+print
+print
+
+
+
+###########
+# Run 
+main=Main()
+main.start()
+
+

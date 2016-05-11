@@ -1,0 +1,9 @@
+include *.txt
+include *.TXT
+include *.py
+include *.pyw
+include pykeylogger.ini
+include pykeylogger.val
+exclude test*.py
+include MANIFEST
+include MANIFEST.in

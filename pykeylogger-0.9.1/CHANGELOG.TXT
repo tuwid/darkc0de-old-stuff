@@ -1,0 +1,172 @@
+PyKeylogger Changelog
+---------------------
+
+-----
+Version 0.9.1 (2007-12-02)
+
+*) Fix bug where logging would stop if target program has terminated before input has been processed (e.g. if Alt-F4 was hit).
+*) Improve threading implementation of the main logwriter. Now exits cleanly and instantaneously when quitting.
+*) Use the 'logging' module to do the debug-level logging to console and to systemlog; improve debug message informativeness.
+
+-----
+Version 0.9.0 (2007-10-24)
+
+*) Add feature to allow key combos to be used as the control key. Makes it easier to avoid accidental hits.
+*) Write output to a delimited file (customizable delimiter). This supercedes the previous separate features of "one file" logging and "multifile" logging. Now the logs can be easily seen, filtered, and manipulated after being imported into a spreadsheet or database software of your choice.
+*) Log also the current username (useful for logging on shared systems)
+*) Instead of parsing events directly in the hook function, add them to a processing queue. This should reduce the occurrence of lag, since the actual hooking operation becomes extremely fast.
+*) Add automatic log rotation feature
+
+-----
+Version 0.8.2 (2007-08-20)
+
+*) Fixed bug 1772375, which prevented the logging of keys to multiple files when window title contained non-ascii characters.
+
+-----
+Version 0.8.1 (2007-01-10)
+
+*) Improved password obfuscation in the .ini file so that it doesn't cause hiccups for the config file reader.
+*) Updated the source so that it works correctly with python 2.5 as well as python 2.4.
+*) Added TLS SMTP functionality - it now works properly with the gmail SMTP server.
+*) Fixed bug where program would forget to change directory back after zipping logfiles, and thus subsequently fail to open the config panel.
+*) Added "Help" menu to the control panel to improve access to documentation.
+*) Added software expiration after 4 days, to encourage donations (or running from python source)
+*) Added nice and easy flag for splash/expiry, so that it is all easily bypassed by editing just one line of code, even by someone who doesn't know python.
+
+-----
+Version 0.8.0 (2006-08-04)
+
+*) Fixed setup.py so that it automatically adds data files to the distribution when making the executable with "setup.py py2exe" (Fix for bug 1531923).
+*) Added MANIFEST.in so that "setup.py sdist" makes the source dist correctly, including all necessary files.
+*) Added graphical control panel that allows changing all configuration items, as well as taking various actions manually.
+*) All items in the settings of the control panel have detailed tooltip help on the meaning of each config option.
+*) Using the more powerful ConfigObj module to read configuration file, instead of ConfigParser. This allows preservation of the .ini file order and comments when changing things through the GUI, as well as validation of option values.
+*) Added the highly informative "welcome screen" :).
+*) The passwords are now not stored in cleartext in the .ini file, to provide some security against casual snooping.
+*) Add capability to zip logfiles to zip and delete the .txts, to save disk space, separately from the send email option.
+*) Removed the "flush key" feature since it is now twice obsoleted - there is the automatic flush, and there is the capability to flush through the control panel.
+*) Protected access to the control panel with a "master password". Default password is left blank; you can change it in the control panel.
+*) What used to be the "exitkey" is now used to bring up the control panel.
+*) Configuration options now have more descriptive names in the .ini file.
+
+-----
+Version 0.7.0 (2006-07-19)
+
+*) Fixed bug where error output was not properly translated to string (cf. http://sourceforge.net/forum/forum.php?thread_id=1418377&forum_id=493189)
+*) Refactored code so that the set of loggable characters only gets set up once.
+*) Make autoflush also flush the systemlog if it exists.
+*) New Feature: Make pykeylogger read the configuration from a .ini file, rather than from commandline options. This really simplifies running pykeylogger, especially where starting it with the system boot is desired. This also makes pykeylogger more easily expandable with new features.
+*) New Feature: automatically zip up the logfiles and send the zip by email periodically (configurable through the .ini file)
+*) New Feature: automatically delete logfiles older than X days (configurable through the .ini file)
+*) New Feature: automatically place a timestamp into the file at preset interval, and every time when starting to write to a logfile (configurable through the .ini file)
+
+-----
+Version 0.6.7 (2005-11-25)
+
+*) Fixed bug where keylogger would not properly exit due to the running timer thread. 
+*) Fixed bug in timer module where timer would not terminate even after its task is completed.
+
+-----
+Version 0.6.6 (2005-11-23)
+
+*) As per user suggestion, implemented an automatic write buffer flush at user-definable interval. 
+*) Changed range of loggable characters to include extended ASCII. Hopefully that will help international users. Please report your feedback.
+
+-----
+Version 0.6.5 (2005-10-12)
+
+*) Fixed bug 1323518, where program would not log properly to one file with option '-o'. It's great when a bugfix involves changing just one line of code. :)
+
+-----
+Version 0.6.4 (2005-10-03)
+
+*) Really fixed the long filename bug now (it turns out the fix from 0.6.0 didn't really work...)
+*) Fix up handling of various exceptions that could be thrown as a result of various filesystem operations. Should make pykeylogger play nicer.
+*) Include cumulative changelog (this file) in release packages.
+*) I just realized that since I started freezing the binary package with py2exe -b1 option, the binary keylogger did not work at all. Since I myself run from source, didn't catch it. Switched back to regular, less compact, freezing. Does nobody report problems with this thing? Have all the people who downloaded the binary just saw that it didn't work, and shrugged, and went away?
+
+-----
+Version 0.6.3 (2005-09-30)
+
+*) Optimized regexp matching. Not much of a difference, but why not. :)
+*) Included a batch script to run with cmd options (in win32 dist), so it's easier to play with those. 
+
+-----
+Version 0.6.2 (2005-09-22)
+
+*) added new commandline option, to create a systemlog with debug output (mostly useful if you want to track down some sporadically-occurring bug)
+*) reorganized some code
+*) included batch file to run keylogger with commandline options (in src dist)
+
+-----
+Version 0.6.0 (2005-09-18)
+
+*) Added new commandline option, to specify logging to just one file (as in older versions), rather than to multiple files, by window and application name.
+*) Fixed bug where program would try to create a filename greater than 255 characters allowed by windows, and do weird things as a result.
+*) Removed the "system log" logging for now. Maybe I will bring it back later, as a commandline option or debug level.
+*) Now freezing windows executables with py2exe with -b1 option, to reduce number of files in the dist. At a minimum, you now only need two files to run pykeylogger binary - the main exe, and library.zip. (if running on win9x, also need w9xpopen.exe)
+
+-----
+Version 0.5.1 (2005-09-16)
+
+*) Fixed major bug - if nothing was specified with -nolog option, would cause an error, and not log anything at all. Does nobody test this thing and report bugs??? apparently not...
+*) included gpl license text file with the dist packages
+*) included informational text files with the win32 package
+
+-----
+Version 0.5.0 (2005-09-15)
+
+*) Created new commandline option, allowing you to specify certain executables (by full path name) that you do not want logged. You might want to use this for Gaim, since it already logs its chats, or for your password safe program, or for your browser, or whatever.
+*) Fixed bug in main log directory creation (used os.makedirs instead of os.mkdir, so that now you can specify any old path, and it will create all the necessary levels automatically). 
+
+-----
+Version 0.4.2 (2005-09-12)
+
+*) Fixed bug where not all unallowed characters in filenames were filtered out, causing major logging problems. Now all characters are filtered out properly (I hope). 
+*) Added system log function, where everything also goes to a global system log, mostly for debug purposes, but also to speed search if you are looking for a particular string you typed, but dont remember where or when you typed it.
+
+-----
+Version 0.4.1 (2005-09-11)
+
+Fixed a number of bugs introduced with the new logging functionality:
+
+*) fixed bug where logger wouldnt correctly flush the log buffers
+*) fixed bug where it would not escape backslashes in window titles, thereby trying to create illegal filenames
+*) fixed bug where it would not properly exit when exit key is pressed
+
+-----
+Version 0.4 (2005-09-11)
+
+*) The long-awaited (by probably about 2 people in the whole world) advanced logging functionality is here. Instead of writing all the keystrokes into one log.txt file, pykeylogger now creates a gaim-style log directory, where it writes into multiple txt files, which are placed into different subdirectories, by application name, and the text files are named by date, unique window handle, and window title. So it is easy for you to find what you typed into such and such notepad window on such a date, and it is not mixed in with what you typed at the same time into your word doc or email or whatnot. Wee! 
+
+-----
+Version 0.3.1 (2005-09-07)
+
+*) Added version string to commandline options
+*) Added default value specification to help message
+
+-----
+Version 0.3 (2005-09-05)
+
+*) Fixed bug where windows exe would show console rather than run hidden. Now windows binary package comes with two exe's one for normal operation, which runs hidden, and one for debug purposes, so you can view output on console when you pass -d commandline parameter.
+*) Included setup.py into source release. Use setup.py to freeze your own windows binaries. Automatically creates two windows exe's, as per item above.
+*) Included md5 sums of release packages.
+
+-----
+Version 0.2.1 (2005-09-05)
+
+*) Switched to using command line arguments, via optparse. This makes it possible to change behavior without modifying function arguments in source. Also prepares pykeylogger for a frozen windows binary release.
+*) Binary release is out (the .zip file), for those who don't want to deal with all the soucre packages necessary to run pykeylogger from source.
+*) One little glitch, though: unlike the source file, which can run completely in the background, the exe opens a command prompt. I haven't been able to figure out how to hide that yet, but i'm working on it. if anyone has any ideas, feel free to share. ;)
+
+-----
+Version 0.2 (2005-09-04)
+
+*) Added several configuration options for the keystroke parsing functionality, to parse backspace, escape, and to add extra line feeds (for windows notepad compatibility).
+
+-----
+Version 0.1 (2005-09-02)
+
+The initial release of pykeylogger.
+Functionality is simple: it captures the keystrokes, filters out/translates non-printable characters, and writes to plain text file. Makes no attempts to be stealthy - although that kinda comes by default with python, since it appears in the tasklist as "pythonw.exe" rather than "keylogger".
+Requires pyHook library, as well as the python interpreter itself. Is Windows-only, since pyHook uses Windows APIs to catch keystrokes.

@@ -1,0 +1,6 @@
+- Add more protocols
+- Recursive web crawling for CGIs automatic fuzzing
+- Make it also scriptable
+- encodings support
+- size report handle (i.e http 'post' request)
+- others

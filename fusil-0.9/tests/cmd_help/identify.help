@@ -1,0 +1,37 @@
+Version: ImageMagick 6.2.4 10/02/07 Q16 http://www.imagemagick.org
+Copyright: Copyright (C) 1999-2005 ImageMagick Studio LLC
+
+Usage: identify [options ...] file [ [options ...] file ... ]
+
+Where options include:
+  -authenticate value  decrypt image with this password
+  -channel type        apply option to select image channels
+  -crop geometry       cut out a rectangular region of the image
+  -debug events        display copious debugging information
+  -define format:option
+                       define one or more image format options
+  -density geometry    horizontal and vertical density of the image
+  -depth value         image depth
+  -extract geometry    extract area from image
+  -format "string"     output formatted image characteristics
+  -fuzz distance       colors within this distance are considered equal
+  -help                print program options
+  -interlace type      type of image interlacing scheme
+  -limit type value    pixel cache resource limit
+  -list type           Color, Configure, Delegate, Format, Magic, Module,
+                       Resource, or Type
+  -log format          format of debugging information
+  -matte               store matte channel if the image has one
+  -monitor             monitor progress
+  -ping                efficiently determine image attributes
+  -quiet               suppress all error or warning messages
+  -sampling-factor geometry
+                       horizontal and vertical sampling factor
+  -set attribute value set an image attribute
+  -size geometry       width and height of image
+  -strip               strip image of all profiles and comments
+  -units type          the units of image resolution
+  -verbose             print detailed information about the image
+  -version             print version information
+  -virtual-pixel method
+                       virtual pixel access method

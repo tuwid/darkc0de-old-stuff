@@ -1,0 +1,41 @@
+Fusil dependencies
+==================
+
+ * Python 2.4:
+   http://python.org/
+ * ctypes Python module (part of Python 2.5+)
+   (Debian package: python-ctypes)
+ * ptrace Python module version 0.3.1+:
+   http://fusil.hachoir.org/trac/wiki/Ptrace
+ * GCC needed by compileC() function from fusil.c_tools:
+   http://gcc.gnu.org/
+ * Xlib Python module, required by fusil.xlib module:
+   http://python-xlib.sourceforge.net/
+
+Running on Windows:
+
+ * win32api for Python:
+   http://starship.python.net/crew/mhammond/win32/
+
+Projects dependencies
+=====================
+
+Each project may require external program or special environment:
+
+ * Linux operating system: *linux_ioctl* and *linux_syscall* projects are specific
+   to Linux
+ * Mplayer program: needed by *mplayer* project
+ * MySQL server and MySQL command line client: needed by *mysql* project
+ * etc.
+
+Installation
+============
+
+Type as root:
+
+   ./setup.py install
+
+Or using sudo program:
+
+   sudo python setup.py install
+

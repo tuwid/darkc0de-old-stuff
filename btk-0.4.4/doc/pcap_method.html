@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Billy the Kid -- Libpcap Interface method descriptions</title>
+</head>
+<body>
+<a href="pcap.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="about.html">Next</a>
+<hr>
+<h1>Libpcap Interface method descriptions</h1>
+<dl><dt>
+<pre>close()</pre>
+<dd>
+This will close the pcap session opened with open_live()/open_offline()
+</dl>
+<dl><dt>
+<pre>compile(filter)</pre>
+<dd>
+This method allows you to compile a filtering string into libpcap which makes
+only the filtered packets passing through the interface to you. The filtering
+is farely complex with a lot of options. For more info look in the tcpdump
+manpage since tcpdump uses the same filtering methods.
+</dl>
+
+<dl><dt>
+<pre>datalink()</pre>
+<dd>
+Returns the datalink layer type of the device (Ethernet, Tokenring etc.)
+</dl>
+
+<dl><dt>
+<pre>dispatch(nopkt, callback)</pre>
+<dd>
+The nopkt specifies the number of packets to catch. The callback is a reference
+to a function with two arguments (length of the packet and the packet itself). Note that the timeout argument from open_live() doesn't work on all platforms so
+dispatch can hang. Besides that dispatch returns after receiving the first packet, but it continues collecting them and a subsequent call will immediately (if anew packet was received) return to callback. For continues reading use a nopkt from -1 and for not returning after one packet use loop().
+</dl>
+
+<dl><dt>
+<pre>dump()</pre>
+<dd>
+The dump() methods dumps the last packet into a dumpfile opened with dump_open()
+</dl>
+<dl><dt>
+<pre>dump_close()</pre>
+<dd>
+Closes the dumpfile opened with dump_open(). 
+</dl>
+<dl><dt>
+<pre>dump_open(file)</pre>
+<dd>
+Opens file for dumping packets to into a universal format (can be read with tcpdump, Ethereal)
+</dl>
+<dl><dt>
+<pre>findalldevs()</pre>
+<dd>
+Returns a list with all available devices
+</dl>
+<dl><dt><pre>getnonblock()</pre>
+<dd>
+Returns the nonblocking state of pcap. Returns true (1) if pcap is in nonblocking mode.
+</dl>
+<dl><dt><pre>is_swapped()</pre>
+<dd>
+Returns true if the byte order of the savefile is swapped in contra to the used
+system (eg. big endian or little endian).
+</dl>
+<dl><dt><pre>lookupdev()</pre>
+<dd>
+Returns the most logical and suitable device for use with pcap.
+</dl>
+<dl><dt><pre>lookupnet(dev)</pre>
+<dd>
+Returns the gateway address and the netmask of the specified device
+</dl> 
+<dl><dt><pre>loop(nopkt, callback)</pre>
+<dd>
+Same as dispatch although it loops until nopkt packets are received. Specify
+-1 to keep reading until an error occurs. Note that this won't work when in
+nonblocking mode.
+</dl>
+<dl><dt><pre>major_version()</pre>
+<dd>
+Returns the major version from pcap which was used to write the dumpfile. 
+</dl>
+<dl><dt><pre>minor_version()</pre>
+<dd>
+Returns the minor version from pcap which was used to write the dumpfile.
+</dl>
+<dl><dt><pre>next()</pre>
+<dd>
+Returns the next captured packet. It'll wait untill a packet is received or
+timeout if it has been set.
+</dl>
+<dl><dt><pre>open_live(dev, [snaplen, promisc, timeout])</pre> 
+<dd>
+This opens the device for capturing from packets. The other options are
+optional and are all integers. The snaplen is the length in bytes pcap should
+capture. If promisc is set to true pcap tries to set the device in promiscuous
+mode. The timeout argument is specified in milli-seconds but won't work on all
+Operating Systems.
+</dl>
+<dl><dt><pre>open_offline(file)</pre>
+<dd>
+Opens the dumpfile 'file' for offline usage of pcap. You can use everything like
+dispatch(), next() and so on and act like you own a real net connection but in
+fact you're using the offline dumpfile
+</dl>
+<dl><dt><pre>setfilter()</pre>
+<dd>
+This sets the filter that has been compiled with compile()
+</dl>
+<dl><dt><pre>setnonblock(block)</pre>
+<dd>
+If you set block to true (1), libpcap will capture in nonblocking mode. Note that dispatch() and next() won't work when in nonblocking mode.
+</dl>
+<dl><dt><pre>snapshot()</pre>
+<dd>
+Returns the currect snapshot length
+</dl>
+<dl><dt><pre>stats()</pre>
+<dd>
+Note that this may not work on all platforms. This way it's not standardly 
+compiled in, but if you want to you need to uncomment BTK_USE_STATS in btk-pcap.h. 
+If it works on your platform stats() returns a tuple containing the number of
+packages received and the number of dropped packages.
+</dl>
+
+<hr>
+<a href="pcap.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="about.html">Next</a>
+</body>
+</html>

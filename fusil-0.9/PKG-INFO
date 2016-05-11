@@ -1,0 +1,210 @@
+Metadata-Version: 1.0
+Name: fusil
+Version: 0.9
+Summary: Fuzzing framework
+Home-page: http://fusil.hachoir.org/
+Author: Victor Stinner
+Author-email: UNKNOWN
+License: GNU GPL v2
+Download-URL: http://fusil.hachoir.org/
+Description: Fusil is a Python library used to write fuzzing programs. It helps to start
+        process with a prepared environment (limit memory, environment variables,
+        redirect stdout, etc.), start network client or server, and create mangled
+        files. Fusil has many probes to detect program crash: watch process exit code,
+        watch process stdout and syslog for text patterns (eg. "segmentation fault"),
+        watch session duration, watch cpu usage (process and system load), etc.
+        
+        Fusil is based on a multi-agent system architecture. It computes a session
+        score used to guess fuzzing parameters like number of injected errors to input
+        files.
+        
+        Available fuzzing projects: ClamAV, Firefox (contains an HTTP server),
+        gettext, gstreamer, identify, libc_env, libc_printf, libexif, linux_syscall,
+        mplayer, php, poppler, vim, xterm.
+        
+        Website: http://fusil.hachoir.org/
+        
+        
+        Features
+        ========
+        
+        Why using Fusil instead your own hand made C script?
+        
+        * Fusil limits child process environment: limit memory, use timeout, make
+        sure that process is killed on session end
+        * Fusil waits until system load is load before starting a fuzzing session
+        * Fusil creates a session directory used as the process current working
+        directory and Fusil only creates files in this directory (and not in /tmp)
+        * Fusil stores all actions in fusil.log but also session.log for all
+        actions related of a session
+        * Fusil has multiple available probes to compute session score: guess if
+        a sessions is a succes or not
+        * Fusil redirects process output to a file and searchs bug text patterns
+        in the stdout/stderr (Fusil contains many text patterns to detect crashes
+        and problems)
+        
+        
+        Installation
+        ============
+        
+        Read INSTALL documentation file.
+        
+        
+        Documentation
+        =============
+        
+        Read files in doc/ directory.
+        
+        
+        Changelog
+        =========
+        
+        Version 0.9
+        -----------
+        
+        * Move log from fusil.log to run-xxxx/project.log and keep it only on success
+        * Create python fuzzing project
+        * Command line arguments:
+        
+        - create "--remove-generated-file": Remove a session directory even if it
+        contains generated files
+        - rename --max-session to --session
+        - rename --max-success to --success
+        - remove --log-filename (was useless)
+        
+        * Use shorter prefix in log output: don't show the step number, but write the
+        number of success
+        * [MTA] Drop duplicate messages sent in the same session step
+        (eg. send session_stop twice)
+        * AttachProcess: use kill(pid,0) instead of testing /proc/pid to support
+        all POSIX OS and not only Linux
+        * FileWatch: set score for a number of line smaller than a minimum
+        (default: disabled) at session stop
+        * Support PyPy (Python interpreter)
+        * Update and improve documentation
+        * IncrMangle:
+        
+        - use O(1) algorithm to detect operations overlap (instead of O(n)):
+        use a set of dirty bits
+        - use keep new version if score is the same or bigger (but not smaller)
+        - create SpecialValue and Increment operations
+        - raise an error if it's no more possible to generator new operation:
+        rollback to an older version in this case
+        
+        * Even in --fast mode, wait for system calm to avoid false positive
+        (system load under 75%)
+        * Projects:
+        
+        - identify: create options to use convert program, to ignore stdout
+        and to use IncrMangle instead of AutoMangle. For PNG picture, autofix
+        the CRC32 of each chunk
+        - gstreamer: create an option to use IncrMangle
+        - php: create float type (variable $e), blacklist more functions (socket
+        connection, eg. ftp_connect())
+        
+        Minor changes:
+        
+        * BUGFIX: unregister agent mailbox on agent destruction
+        * BUGFIX: Directory.rmtree() changes file permission on operation error
+        * Create UnsignedGenerator in fusil.bytes_generator, and IntegerGenerator
+        now avoid generation of number starting with a zero digit
+        * CreateProcess() constructor accepts stdin="null" argument
+        
+        Version 0.8 (2008-03-26)
+        ------------------------
+        
+        * Gstreamer project: use decodebin with fakesink for faster fuzzing
+        * Bugfix: fix FileWatch for Mac OS X (save/restore file cursor)
+        * Create IncrMangle (incremental): new mangle algorithm
+        * Use locateProgram() to avoid full program path (eg. replace "/usr/bin/mplayer" by "mplayer")
+        * Don't set MALLOC_CHECK\_ environment variable
+        * Bugfix: truncate aggressivity to 2 digits to avoid comparaison bugs
+        * Use ptrace python module (but don't use the debugger)
+        
+        Version 0.7 (2008-01-03)
+        ------------------------
+        
+        Visible changes:
+        
+        * Create Firefox project: HTTP server providing mangled image (or any
+        embedded document, like Flash document)
+        * Create network server, UNIX socket client, and HTTP server
+        * Basic support of Windows operating system: write especially functions
+        for process managment on Windows, and MangleFile opens file
+        in binary mode
+        * EnvironmentVariable has max_count argument to generate multiple
+        variables when name is a list
+        * Create --aggressivity=VALUE and --version command line options
+        * session_done() event is replaced by session_stop(), session_done(score)
+        event is now send by Session with the final session score and the event
+        can now by catched by agents.
+        * mangle_filename() and mangle_files() events are replaced by unique
+        mangle_filenames() event
+        * Create TerminalEcho(), used by mplayer project to restore terminal
+        echo mode on exit
+        * Create sendKey() function to send a keystroke to a X11 window
+        * php project: remove undefined function automatically
+        * Environement don't copy any variable anymore by default, except on
+        Windows: copy SYSTEMROOT variable
+        
+        Minor changes:
+        
+        * libc_env project: generate between 1 and 5 variables
+        * SystemCalm always display a first and last message with INFO log level
+        * Write graph.dat in run-0001 directory
+        * Merge WatchProcessPID class into WatchProcess
+        * Remove 'pipe' type for StdoutFile, 'file' type is better
+        * linux.proc functions only send ProcError exceptions
+        * Fix searchProcessByName() for Linux kernel processes
+        * Multi agent system is now executed by Univers agent, instead of Project
+        agent
+        * Environment displays generated variable with WARNING log level
+        
+        Version 0.6 (2007-12-18)
+        ------------------------
+        
+        * Create "aggressivity" factor used for mangle autoconfiguration: use
+        score of previous session to update aggressity factor, and this factor
+        is used to compute the operations types and the number of operations
+        * Add fusil.os_tools module for Fusil portability: Fusil now works on
+        Linux, NetBSD and Mac OS X (at least)
+        * New command line options: --max-success (default: 5), --quiet, --fast,
+        --slow, --keep-all-sessions, --profiler
+        * New probe: process CPU usage and ProcessTimeWatch
+        * Create function to wait until system load is low (default: under 50% CPU)
+        * Create UnixPathGenerator() in fusil.bytes_generator module
+        * FileWatch:
+        
+        * Limit live() duration to 250 ms
+        * Write documentation,
+        * Add more words (pointer, memory, ...),
+        * Create addRegex() method,
+        * Add maximum number of line probe,
+        * Remove tell() and seek() calls,
+        * Do not log not matching line anymore (can be changed with
+        log_not_matching option)
+        
+        * Fix race condition in StdoutFile: re-open stdout in read-only mode for
+        FileWatch, and disable buffering
+        * Merge MangleFile and MangleMultipleFiles
+        * Session is only destroyed at the end of a MAS step
+        * Write more unit tests
+        * Create new projects: at, gstreamer, libx11
+        * Environment doesn't copy LANG and LANGUAGE anymore
+        * SessionDirectory keeps data on application error
+        * Fix many little bugs and improvment a lot of code
+        
+        Version 0.5 (2007-11-28)
+        ------------------------
+        
+        * First public release
+        
+        
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python

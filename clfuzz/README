@@ -1,0 +1,30 @@
+ clfuzz.py v0.2 -- Command line arguments fuzzer
+                   Audit your setuid binaries!!!
+
+                   http://warl0ck.metaeye.org/clfuzz.tar.gz
+
+ Copyright (C) 2005-2006  Pranay Kanwar <warl0ck@metaeye.org>
+
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License version 2 as
+ published by the Free Software Foundation; version 2.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+
+ A copy of the GNU GPL is available as /usr/doc/copyright/GPL on Debian
+ systems, or on the World Wide Web at http://www.gnu.org/copyleft/gpl.html
+ You can also obtain it by writing to the Free Software Foundation, Inc.,
+ 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+
+ This is clfuzz a python script to fuzz command line arguments of 
+ a program. Usefulin auditing setuid binaries
+ 
+ Usage: clfuzz.py program arg1 arg2 ... arg10 ...
+
+ In args i.e arg1,arg2 etc STR is replaced with A's,
+ FMTs with fromat strings,NUM's with numbers
+  
+ example :  $clfuzz.py ping STR

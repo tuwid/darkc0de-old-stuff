@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Billy the Kid -- Libpcap Interface</title>
+</head>
+<body>
+<a href="rawpacket_method.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="pcap_method.html">Next</a>
+<hr>
+<h1>Libpcap Interface</h1>
+Readers who are already familiar with libpcap know of its power and flexibility.
+Well, you can use it from within Python now. Please note that if you only use
+btk for libpcap it may be a option to use pylibpcap (see References) instead. That package is 
+a SWIG (Simplified Wrapper Interface Generator) generated wrapper for libpcap. The reason for programming a whole btk interface to libpcap was to have better
+access to the raw power of libpcap. Besides, I'm planning some other functions
+combining the libpcap usage and the raw packet usage. We'll see if it works out!
+<br><br>
+While writing the btk wrappers I tried to stick as much as possible to the 
+normal pcap functions names as used in the C-interface. Every function in libpcap is preceded by pcap_ and that isn't needed when using the Python interface.
+It's clear the functions belong to the pcap interface because they reside in the
+pcap class within btk.
+<pre>
+>>> import btk
+>>> pcap = btk.pcap()
+>>> dir(pcap)
+>>> ['close', 'compile', 'datalink', 'dispatch', 'dump', 'dump_close', 'dump_open', 'findalldevs', 'getnonblock', 'is_swapped', 'lookupdev', 'lookupnet', 'loop', 'major_version', 'minor_version', 'next', 'open_live', 'open_offline', 'setfilter', 'setnonblock', 'snapshot', 'stats']
+</pre>
+All useful functions from libpcap are being wrapped. The other ones like pcap_geterr(), pcap_open_dead() aren't very useful for the Python user. BTK takes care
+of all error handling and returns nice error strings so you don't have to worry
+about that.
+Now let's stick to another example
+<pre>
+>>> import btk
+>>> pcap = btk.pcap()
+>>> pcap.findalldevs()
+['eth0']
+>>> pcap.open_live("eth0")
+>>> pcap.compile("port 80")
+>>> pcap.setfilter()
+>>> pcap.next()
+</pre>
+The example above will first look for suitable devices for use with pcap. After
+that it'll initialize the pcap capture interface. The filtering is done for
+port www and the set of filter rules is applied using setfilter(). When calling
+pcap.next() btk waits for the first packet to pass the filter and it'll return
+it so you can parse it.
+Note that you've got to have the correct permissions to use the pcap class. Most
+of the time this means being root (or setuid bit to root) even for looking up
+devices. This is because libpcap shows only the devices accessible through libpcap for the calling user.
+<hr>
+<a href="rawpacket_method.html">Prev</a>
+<a href="index.html">Contents</a>
+<a href="pcap_method.html">Next</a>
+</body>
+</html>

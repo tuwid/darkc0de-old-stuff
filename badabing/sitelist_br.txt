@@ -1,0 +1,5 @@
+com.br
+net.br
+org.br
+edu.br
+br -(site:.com.br)-(site:.edu.br)-(site:.org.br)-(site:.net.br)-(site:.gov.br)

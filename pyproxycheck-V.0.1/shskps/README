@@ -1,0 +1,21 @@
+All scripts Created by on_a_role_again
+
+These tools Should Be Self Explanitory.
+
+-rwxr-xr-x  printanon.sh     - prints anon proxies from output of pyproxycheck
+-rwxr-xr-x  printdead.sh     - prints dead proxies from output of pyproxcheck
+-rwxr-xr-x  printgateway.sh  - prints gateway  ' ' ' ' ' 
+-rwxr-xr-x  printnotanon.sh  -   '    not anon ' ' ' ' '
+-rwxr-xr-x  removedups.sh    - removes duplicate proxies
+-rwxr-xr-x  reslove2ip.sh    - for list host.name.domain ---> ip address
+
+
+prxjdget.sh - searches google for proxy judges and prints working ones
+              to a file called good_prxjdgs.txt
+
+Want Another Shell Script? 
+- Email Me a request. I like Making them!
+   support.services.complaints@gmail.com
+      SUBJECT : SH SCRIPT REQUEST 
+
+

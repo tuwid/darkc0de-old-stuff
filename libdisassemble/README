@@ -1,0 +1,55 @@
+﻿  Immunity libdisassembly v1.0 
+  ~~~~~~~~ ~~~~~~~~~~~~~~ ~~~~ 
+  http://www.immunitysec.com 
+  Aug 18, 2004
+
+
+Libdisassembly is simply a python library for disassembling x86 opcodes. It has been made for Immunity's PDB Project (a vulnerability development focused debugger), and is partially based on mammon libdisasm opcode list (http://www.eccentrix.com/members/mammon/). There is still a lot of work to do with the Metadata, but the library tries to return as much information it can get off of an opcode.
+
+USAGE:
+
+ie: 
+   $ objdump -x /bin/cat | grep .text
+     11 .text         00001e48  08048b00  08048b00  00000b00  2**4
+   $ ./disassemble.py /bin/cat 0xb00 0x1e48
+
+Disassembling file /bin/cat at offset: 0x2816
+ 00002816:   mov           0x8(%ebp),%edx
+ 00002819:   mov           0xc(%ebp),%eax
+ 0000281C:   mov           %edx,(%esp,1)
+[...]
+
+LIBRARY USAGE:
+ Getting the string information of an opcode is really simple:
+ 
+from disassemble import *
+data="\xeb\xfe"
+p=Opcode(data)
+print p.printOpcode("AT&T")
+
+The output would be:
+ jmp         0xfffffffe
+
+If for example, we want to put that information in a fancy GUI, we could request for a string separated in mnemonic, source, dest (or dest, source) with getOpcode(FORMAT).
+
+ p.getOpcode("AT&T")
+
+and it will return a table:
+['jmp', '0xfffffffe']
+
+Metadata info:
+~~~~~~~~ ~~~~~
+Every opcode has 3 variables: opcode, source, dest.
+
+ - opcode, is the string of the mnenonic 
+ - source, is an object or None
+ - dest,   is an object or None
+
+There are 3 types of objects,  Register, Address, SIB and Expression. There are a couple of common methods you can use:
+
+ - object.printOpcode(FORMAT), the string representation of the object.
+ - object.getSize(), size 
+ - object.getType, information of the opcode table.
+ - object.getSFlag, object permission ("R"ead, "W"rite, e"X"ecute)
+ - etc (You can browse the source to get more information)
+

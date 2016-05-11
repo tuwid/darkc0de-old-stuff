@@ -1,0 +1,4 @@
+watchfor /Failed password/
+echo = bold
+exec=/root/.punix.py $_
+throttle=00:00:03,key=regex 

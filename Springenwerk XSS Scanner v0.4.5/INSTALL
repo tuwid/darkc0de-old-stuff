@@ -1,0 +1,7 @@
+Springenwerk doesn't need to be installed, it can be run out of the box (if it
+came in a box, that is).
+Springenwerk does, however, require a Python interpreter of the version 2.4.0 
+or greater to be installed on your system.
+
+You will find the binaries and installation support for almost every platform at
+  http://www.python.org/download/

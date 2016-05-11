@@ -1,0 +1,513 @@
+#!/usr/bin/env python
+
+import os, sys, time
+import sip
+import xml.dom.minidom
+from xml.dom.minidom import Node
+
+from PyQt4 import QtCore, QtGui, Qsci
+from PyQt4.Qsci import QsciScintilla, QsciScintillaBase, QsciLexerHTML, QsciLexerPython, QsciLexerPerl
+
+from MainWindow import Ui_MainWindow
+from Settings import Ui_Settings
+from Alert import Ui_Alert
+from About import Ui_About
+
+class TraceItem:
+    def __init__(self, data, origdata = None, tooltip = None, lineNumber = 0, fullPath = None, parent = None):
+        self.parentItem = parent
+        self.itemData = data
+        self.childItems = []
+        self.tooltip = tooltip
+        self.lineNumber = lineNumber
+        self.fullpath = fullPath
+        self.origcontext = origdata
+        
+    def context(self):
+        return self.origcontext
+    
+    def fullPath(self):
+        return self.fullpath
+    
+    def line(self):
+        return self.lineNumber
+        
+    def toolTip(self):
+        return self.tooltip
+    
+    def appendChild(self, item):
+        self.childItems.append(item)
+
+    def child(self, row):
+        return self.childItems[row]
+
+    def childCount(self):
+        return len(self.childItems)
+
+    def row(self):
+        if self.parentItem:
+            return self.parentItem.childItems.index(self)
+        return 0
+
+    def columnCount(self):
+        return len(self.itemData)
+
+    def data(self, column):
+        return self.itemData[column]
+
+    def parent(self):
+        return self.parentItem
+
+class TraceModel(QtCore.QAbstractItemModel):
+    def __init__(self, header, data, parent = None, *args):
+        QtCore.QAbstractTableModel.__init__(self, parent, *args)
+        self.rootItem = self.generateItemList(header, data)
+
+    def generateItemList(self, header, data, parent = None):
+        top = TraceItem(header)
+        for row in data:
+           tmp = TraceItem([row['type'], row['severity']], None, None, 0, None, top)
+           top.appendChild(tmp)
+           
+           i = 0    
+           while i < len(row['file']['context']):
+               context = row['file']['context'][i]
+               line = row['file']['lines'][i]
+               tip = "<p style='white-space:pre'><b>" + context.lstrip().rstrip() + "</b></p>" + row['message'].lstrip().rstrip()
+               foo = TraceItem([context.lstrip().rstrip(), ''], context, tip, line, row['file']['name'], tmp)
+               tmp.appendChild(foo)
+               i += 1
+               
+        return top
+
+    def index(self, row, column, parent):
+        if row < 0 or column < 0 or row >= self.rowCount(parent) or column >= self.columnCount(parent):
+            return QtCore.QModelIndex()
+
+        if not parent.isValid():
+            parentItem = self.rootItem
+        else:
+            parentItem = parent.internalPointer()
+
+        childItem = parentItem.child(row)
+        if childItem:
+            return self.createIndex(row, column, childItem)
+        else:
+            return QtCore.QModelIndex()
+
+    def parent(self, index):
+        if not index.isValid():
+            return QtCore.QModelIndex()
+
+        childItem = index.internalPointer()
+        parentItem = childItem.parent()
+
+        if parentItem == self.rootItem:
+            return QtCore.QModelIndex()
+        return self.createIndex(parentItem.row(), 0, parentItem)
+
+    def rowCount(self, parent):
+        if parent.column() > 0:
+            return 0
+        if not parent.isValid():
+            parentItem = self.rootItem
+        else:
+            parentItem = parent.internalPointer()
+
+        return parentItem.childCount()
+
+    def columnCount(self, parent):
+        if parent.isValid():
+            return parent.internalPointer().columnCount()
+        return self.rootItem.columnCount()
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QtCore.QVariant()
+        if role != QtCore.Qt.DisplayRole and role != QtCore.Qt.ToolTipRole:
+            return QtCore.QVariant()
+
+        item = index.internalPointer()
+        
+        if role == QtCore.Qt.DisplayRole:
+            return QtCore.QVariant(item.data(index.column()))
+        elif role == QtCore.Qt.ToolTipRole:
+            return QtCore.QVariant(item.toolTip())
+        
+    def flags(self, index):
+        if not index.isValid():
+            return QtCore.Qt.ItemIsEnabled
+        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+
+    def headerData(self, section, orientation, role):
+        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
+            return QtCore.QVariant(self.rootItem.data(section))
+        return QtCore.QVariant()
+
+class DisplayAlert(QtGui.QDialog):
+    def __init__(self, msg, parent = None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_Alert()
+        self.ui.setupUi(self)
+        self.ui.label.setText(msg)
+
+        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("accepted()"), self.accept)
+
+    def accept(self):
+        self.hide()
+
+class DisplayAbout(QtGui.QDialog):
+    def __init__(self, parent = None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_About()
+        self.ui.setupUi(self)
+        pixmap = QtGui.QPixmap("images/splashscreen.png")
+        self.ui.imagelabel.setPixmap(pixmap)
+        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("accepted()"), self.okay)
+    
+    def okay(self):
+        self.hide()
+        
+class DisplaySettings(QtGui.QDialog):
+    def __init__(self, parent = None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_Settings()
+        self.ui.setupUi(self)
+        self.parent = parent
+
+        QtCore.QObject.connect(self.ui.browse, QtCore.SIGNAL("clicked()"), self.findRatsBinary)
+        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("accepted()"), self.save)
+        QtCore.QObject.connect(self.ui.buttonBox, QtCore.SIGNAL("rejected()"), self.cancel)
+
+        self.ui.path.setText(parent.path)
+        
+    def save(self):
+        if not os.path.exists(str(self.ui.path.text())):
+            self.alert("File does not exist")
+            return
+        self.parent.setPath(str(self.ui.path.text()))
+        self.hide()
+        
+    def cancel(self):
+        self.hide()
+        
+    def findRatsBinary(self):
+        dialog = QtGui.QFileDialog()
+        dialog.setFileMode(QtGui.QFileDialog.ExistingFile)
+        self.target = dialog.getOpenFileNames(self, 'Select Files to Analyze')
+        self.parent.setPath(str(self.target[0]))
+        self.ui.path.setText(str(self.target[0]))
+
+    def alert(self, msg):
+        self.alert = DisplayAlert(msg)
+        self.alert.show()
+    
+class Star(QtGui.QMainWindow):
+    def __init__(self, parent = None):
+        QtGui.QWidget.__init__(self, parent)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("images/splashscreen.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
+
+        pixmap = QtGui.QPixmap("images/splashscreen.png")
+        splash = QtGui.QSplashScreen(pixmap, QtCore.Qt.WindowStaysOnTopHint)
+        splash.setMask(pixmap.mask())
+        splash.show()
+        splash.showMessage((u''), QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom, QtCore.Qt.white)
+        
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.ui.tabWidget.clear()
+        
+        QtCore.QObject.connect(self.ui.settings, QtCore.SIGNAL("triggered()"), self.displaySettings)
+        QtCore.QObject.connect(self.ui.aAnalyze, QtCore.SIGNAL("triggered()"), self.analyze)
+        QtCore.QObject.connect(self.ui.aLoaddirectory, QtCore.SIGNAL("triggered()"), self.loaddirectory)
+        QtCore.QObject.connect(self.ui.aLoadfiles, QtCore.SIGNAL("triggered()"), self.loadfiles)
+        QtCore.QObject.connect(self.ui.close, QtCore.SIGNAL("triggered()"), self.close)
+        QtCore.QObject.connect(self.ui.quit, QtCore.SIGNAL("triggered()"), self.exit)
+        QtCore.QObject.connect(self.ui.about, QtCore.SIGNAL("triggered()"), self.about)
+        
+        self.path = "C:\\Rats\\rats.exe"
+        self.target = ""
+        self.xml = []
+        self.loadedDirectory = False
+        self.loadedFiles = True
+        self.openfiles = []
+        self.results = []
+        
+        self.model = TraceModel(["Code", "Severity"], self.results)
+        self.ui.trace.setModel(self.model)
+
+        time.sleep(1.5)        
+        splash.finish(self)
+
+        if sys.platform == "win32":
+            self.locateRatsWin32()
+        else:
+            self.locateRatsPosix()
+
+    def about(self):
+        self.about = DisplayAbout()
+        self.about.show()
+        
+    def alert(self, msg):
+        self.alert = DisplayAlert(msg)
+        self.alert.show()
+        
+    def locateRatsWin32(self):
+        found = False
+        paths = os.environ['PATH'].split(';')
+        
+        for path in paths:
+            if os.path.exists(path + "\\rats.exe"):
+                found = path + "\\rats.exe"
+                break
+        
+        if found != False:
+            self.path = found
+        else:
+            self.path = "C:\\Rats\\rats.exe"
+            self.displaySettings()
+
+    def locateRatsPosix(self):
+        found = False
+        paths = os.environ['PATH'].split(':')
+        
+        for path in paths:
+            if os.path.exists(path + "/rats"):
+                found = path + "/rats"
+                break
+        
+        if found != False:
+            self.path = found
+        else:
+            self.path = "/usr/bin/rats"
+            self.displaySettings()
+            
+    def exit(self):
+        sys.exit(0)
+        
+    def close(self):
+        self.ui.tabWidget.clear()
+        self.openfiles = []
+        self.results = []
+        self.model = TraceModel(["Code", "Severity"], self.results)
+        self.ui.trace.setModel(self.model)
+        
+    def analyze(self):
+        self.xml = []
+        if not os.path.exists(self.path):
+            self.alert("RATS binary can not be found.")
+            return
+        if self.loadedFiles == True:
+            if len(self.target) == 0:
+                self.loadfiles()
+        elif self.loadedDirectory == True:
+            if not os.path.exists(self.target):
+                self.loaddirectory()
+                
+        warning = str(self.ui.warning.text())
+        language = str(self.ui.language.currentText()).lower()
+        function = str(self.ui.function.text())
+        external = False
+        references = False
+                
+        if self.ui.external.checkState() == QtCore.Qt.Checked:
+            external = True
+        if self.ui.references.checkState() == QtCore.Qt.Checked:
+            references = True
+
+        if self.loadedFiles == True:
+            progress = QtGui.QProgressDialog("Analyzing Sources...", "Abort", 0, len(self.target))
+            screen = QtGui.QDesktopWidget().screenGeometry()
+            size = self.geometry()
+            #progress.move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2)
+            progress.show()
+            progress.setMinimum(0)
+            progress.setMaximum(len(self.target))
+            i = 0
+            for file in self.target:
+                cmd = self.path + " -l " + language + " -w " + warning + " --xml --quiet --context"
+                if len(function) > 0:
+                    cmd += " -a " + function
+                if external == True:
+                    cmd += " -i"
+                if references == True:
+                    cmd += " -r"
+                    
+                cmd += " \"" + str(file) + "\""
+                
+                progress.setValue(i)
+                if progress.wasCanceled():
+                    break
+                i += 1
+                input, output, error = os.popen3(cmd)
+                data = ""
+                while 1:
+                        try:
+                            buf = output.read(4096)
+                        except IOError, m:
+                            continue
+                        if buf == "":
+                            break
+                        data += buf
+                self.xml.append(data)
+            progress.setValue(len(self.target))
+            progress.hide()        
+        elif self.loadedDirectory == True:
+            cmd = self.path + " -l " + language + " -w " + warning + " --xml --quiet --context"
+            if len(function) > 0:
+                cmd += " -a " + function
+            if external == True:
+                cmd += " -i"
+            if references == True:
+                cmd += " -r"
+                    
+            cmd += " \"" + self.target + "\""
+            input, output, error = os.popen3(cmd)
+            data = ""
+            while 1:
+                    try:
+                        buf = output.read(4096)
+                    except IOError, m:
+                        continue
+                    if buf == "":
+                        break
+                    data += buf
+            self.xml.append(data)
+
+        self.parseXML()
+        self.updateDisplay()
+
+    def updateDisplay(self):
+        self.ui.tabWidget.clear()
+        self.model = TraceModel(["Code", "Severity"], self.results)
+        self.ui.trace.setModel(self.model)
+        self.ui.trace.setColumnWidth(0, 250)
+        QtCore.QObject.connect(self.ui.trace, QtCore.SIGNAL("doubleClicked(const QModelIndex&)"), self.loadsource)
+        self.ui.trace.show()
+        
+    def parseXML(self):
+        self.results = []
+        for data in self.xml:
+            doc = xml.dom.minidom.parseString(data)
+            self.handleRatsOutput(doc.getElementsByTagName("rats_output"))
+
+    def handleRatsOutput(self, output):
+        for o in output:
+            vulnerabilities = o.getElementsByTagName("vulnerability")            
+            for vuln in vulnerabilities:
+                self.handleVulnerability(vuln)
+    
+    def handleVulnerability(self, vulnerability):
+        severity = self.getText(vulnerability.getElementsByTagName("severity")[0])
+        type = self.getText(vulnerability.getElementsByTagName("type")[0])
+        message = self.getText(vulnerability.getElementsByTagName("message")[0])
+        file = self.handleFile(vulnerability.getElementsByTagName("file")[0])
+        self.results.append(dict([('severity', severity), ('type', type), ('message', message), ('file', file)]))
+
+    def handleFile(self, f): 
+        name = self.getText(f.getElementsByTagName("name")[0])
+        lines = self.handleLine(f.getElementsByTagName("line"))
+        context = self.handleContext(f.getElementsByTagName("context"))
+        return dict([('name', name), ('lines', lines), ('context', context)])
+
+    def handleLine(self, elements):
+        out = []
+        for line in elements:
+            out.append(self.getText(line))
+        return out
+
+    def handleContext(self, elements):
+        out = []
+        for context in elements:
+            out.append(self.getText(context))
+        return out
+    
+    def getText(self, nodelist):
+        rc = ""
+        for node in nodelist.childNodes:
+            if node.nodeType == node.TEXT_NODE:
+                rc += node.data
+        return rc
+    
+    def loaddirectory(self):
+        dialog = QtGui.QFileDialog()
+        dialog.setFileMode(QtGui.QFileDialog.DirectoryOnly)
+        self.target = str(dialog.getExistingDirectory(self, 'Select a Directory to Analyze'))
+        self.loadedDirectory = True
+        self.loadedFiles = False
+    
+    def loadfiles(self):
+        dialog = QtGui.QFileDialog()
+        self.target = dialog.getOpenFileNames(self, 'Select Files to Analyze')
+        self.loadedDirectory = False
+        self.loadedFiles = True
+    
+    def displaySettings(self):
+        self.settings = DisplaySettings(self)
+        self.settings.show()
+
+    def setPath(self, path):
+        self.path = path
+
+    def loadsource(self, index):
+        item = index.internalPointer()
+        file = item.fullPath()
+        line = item.line()
+        origcontext = item.context()
+        context = item.data(0)
+        container = item.data(1)
+        
+        if len(container) > 0:
+            return
+
+        found = False
+        for openfile in self.openfiles:
+            if openfile['file'] == file:
+                found = [openfile['index'], openfile['line'], openfile['editor']]
+                break
+        
+        if found != False:
+            self.ui.tabWidget.setCurrentIndex(found[0])
+            filename = file.split('/').pop()
+            self.ui.tabWidget.setTabText(int(found[0]), filename + ":" + str(line))
+            found[2].setCursorPosition(int(line)-1, 0)
+            found[2].setSelection(int(line)-1, 0, int(line)-1, len(origcontext)-1)
+        else:
+            fd = open(file, "r")
+            buf = fd.read()
+            fd.close()
+            
+            filename = file.split('/').pop()
+            editor = Qsci.QsciScintilla()
+            index = self.ui.tabWidget.addTab(editor, filename + ":" + str(line))
+
+            language = str(self.ui.language.currentText()).lower()
+            if language == "php":
+                lexer = QsciLexerHTML()
+            elif language == "python":
+                lexer = QsciLexerPython()
+            elif language == "perl":
+                lexer = QsciLexerPerl()
+            else:
+                lexer = 0
+                
+            editor.setLexer(lexer)
+            editor.setMarginLineNumbers(0, True)
+            editor.setBraceMatching(QsciScintilla.SloppyBraceMatch)
+            editor.setReadOnly(True)
+            editor.setText(buf)
+            editor.setCursorPosition(int(line)-1, 0)
+            editor.setSelection(int(line)-1, 0, int(line)-1, len(origcontext)-1)
+            editor.show()
+            
+            self.openfiles.append(dict([('file', file), ('index', index), ('line', line), ('editor', editor)]))
+
+        
+        
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    myapp = Star()
+    myapp.show()
+    sys.exit(app.exec_())

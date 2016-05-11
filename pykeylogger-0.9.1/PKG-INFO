@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: pykeylogger
+Version: 0.9.1
+Summary: Simple Python Keylogger for Windows
+Home-page: http://pykeylogger.sourceforge.net
+Author: Nanotube
+Author-email: nanotube@users.sf.net
+License: GPL
+Description: UNKNOWN
+Platform: Windows NT/2000/XP

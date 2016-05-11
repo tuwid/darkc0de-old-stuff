@@ -1,0 +1,97 @@
+Features
+========
+
+ * Isolate bug feature: undo mangle operations to isolate the changes
+   producing the crash
+ * Collect crashs and get backtrace to sort the crashs without exit
+ * parallel execution of multiple fuzzing session
+ * Watch sub-child processes after fork(). What about fork-bomb? Use rlimit
+   to limit number of process per user?
+ * Run as dedicated UNIX user to avoid removing file
+
+Generate exploit on success, see:
+
+ * PyShellcodeLib (GPLv2 license):
+   http://inguma.sourceforge.net/#pyshellcodelib
+ * InlineEgg from CORE Impact:
+   http://oss.coresecurity.com/projects/inlineegg.html
+ * ShellKnife:
+   http://benjamin.caillat.free.fr/shellknife.php
+ * ShellForge by Philippe Biondi:
+   http://www.secdev.org/projects/shellforge/
+
+Save / Pause / Replay
+=====================
+
+ * Store action initial state
+ * Replay in gdb
+ * Replay in valgrind
+ * Tools to isolate the bug: reproduce with less noise
+ * Tools to locate the bug: gdb/valgrind/backtrace
+ * Detect duplicates
+ * Avoid duplicates
+ * Pause: http://cryopid.berlios.de/
+
+Score
+=====
+
+ * Crash state: machine instructions around EIP, /proc/pid/maps,
+   backtrace, registers, etc.
+ * Code coverage:
+
+   * gcov: http://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+   * Valgrind: http://www.valgrind.org/ Valgrind
+   * DynamoRio: http://www.cag.lcs.mit.edu/dynamorio/
+
+ * Check invalid use of memory using Valgrind (or any memory checker tool)
+ * increment score if one of these function is called:
+
+   - fgets(), memcpy(), strcpy()
+   - input comes from user (?)
+   - bytes read by the program
+   - memory usage
+
+Ideas to crash programs
+=======================
+
+ * Don't create stdin, stdout or stderr to check if first open file gets file descriptor #0
+ * Continue to analyze gettext :-)
+ * write C library to inject errors in libc calls (eg. malloc() failure)
+
+   * Generate [http://michael-prokop.at/blog/2007/06/12/error-handling-enospc/ ENOSPC] errors?
+   * file: open(), close(), read(), write()
+   * directory: opendir(), chdir()
+   * memory:  malloc(), realloc(), calloc()
+   * network: socket(), setsockopt()
+   * time: time(), gettimeofday()
+     http://software.inl.fr/trac/trac.cgi/wiki/Macfly
+
+ * Send signals like SIGINT, SIGTERM, SIGSTOP, SIGUSR1, SIGUSR2
+ * network socket proxy fuzzer
+
+Trace program crash (Linux)
+===========================
+
+ * pipe core dump
+
+   * /proc/sys/kernel/core_pattern
+   * /proc/sys/kernel/core_uses_pid
+   * [http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d025c9db7f31fc0554ce7fb2dfc78d35a77f3487 Support piping into commands in /proc/sys/kernel/core_pattern]
+   * http://lwn.net/Articles/195310/
+
+ * http://libsigsegv.sourceforge.net/
+ * https://wiki.ubuntu.com/AutomatedProblemReports
+ * GNU libc has backtrace() function, looks interresting:
+   http://www.gnu.org/software/libc/manual/html_node/Backtraces.html
+ * Debugger written in Python to control process
+
+   * PytStop: http://www.secdev.org/projects/pytstop/
+   * Vtrace: http://kenshoto.com/vtrace/
+   * Subterfuge, binding to ptrace: http://subterfugue.org/
+
+Discover input vectors
+======================
+
+Reuse old code from fuzz_app branch (lstrace/strace):
+http://fusil.hachoir.org/trac/browser/branches/fuzz_app/learn.py
+

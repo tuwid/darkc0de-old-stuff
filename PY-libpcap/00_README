@@ -1,0 +1,15 @@
+PyPcap
+---------
+AUTHOR: Aaron L. Rhodes <arhodes@austin.rr.com>
+
+This is a Python module that interfaces to libpcap, the UNIX packet capture
+library.  This can be used for many purposes including network debugging,
+traffic analysis, intrusion detection.
+
+It is currently in a very rudimentary state.  BPF filtering does not
+work, and the module seg faults on Solaris.
+
+The packet capture uses libpcap but allows you to specify a Python
+function as the handler.
+
+
