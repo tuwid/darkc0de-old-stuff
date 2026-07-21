@@ -137,9 +137,9 @@ def gharv(magicWord):
 				lastlen = len(str(counter)+str(sleeptimer)+str(percent))+13
 				sys.stdout.flush()
 				bcksp = 1
-			sys.stdout.write(" | %s Strings recieved, in %s seconds" % (len(targets)-saveCount,cmpslptime))
+			sys.stdout.write(" | %s Strings received, in %s seconds" % (len(targets)-saveCount,cmpslptime))
 		except IOError:
-			sys.stdout.write(" | %s Strings recieved" % (len(targets)-saveCount))
+			sys.stdout.write(" | %s Strings received" % (len(targets)-saveCount))
 	firstparm = '';uList = []
 	for entry in targets:
 	        thost = entry.rsplit("=");t2host = entry.rsplit("/")
